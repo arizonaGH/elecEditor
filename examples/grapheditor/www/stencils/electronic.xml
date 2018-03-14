@@ -1,0 +1,178 @@
+<shapes name="mxgraph.electronic">
+    <shape name="pcb" h="45" w="15" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0.5" y="0" perimeter="0" name="N"/>
+            <constraint x="0.5" y="1" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#ff0000"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#ff0000" alpha="0.5"/>
+            <rect h="45" w="15" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="btcb" h="15" w="45" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0" y="0.5" perimeter="0" name="N"/>
+            <constraint x="1" y="0.5" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#00ff00"/>
+            <rect h="15" w="45" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="lcb" h="15" w="45" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0" y="0.5" perimeter="0" name="N"/>
+            <constraint x="1" y="0.5" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#00ff00"/>
+            <rect h="15" w="45" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="nc" h="20" w="20" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0.5" y="0" perimeter="0" name="N"/>
+            <constraint x="0.5" y="1" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#ff0000"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#ff0000"/>
+            <ellipse h="20" w="20" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="generatrix" h="3" w="150" aspect="variable" strokewidth="inherit">
+        <connections>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#00ff00"/>
+            <rect h="3" w="150" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+
+    <shape name="PT2" h="75" w="30" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0.5" y="0" perimeter="0" name="N"/>
+            <constraint x="0.5" y="1" perimeter="0" name="S"/>
+        </connections>
+        <background>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1" />
+            <path>
+                <move x="0" y="30"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="30" y="30"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="0" y="30"/>
+                <close/>
+                <move x="0" y="45"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="30" y="45"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="0" y="45"/>
+                <close/>
+                <move x="15" y="0" />
+                <line x="15" y="15" />
+                <move x="15" y="60" />
+                <line x="15" y="75" />
+            </path>
+        </background>
+        <foreground>
+            <stroke/>
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="PT3" h="75" w="50" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0.5" y="0" perimeter="0" name="N"/>
+            <constraint x="0.3" y="1" perimeter="0" name="S"/>
+            <constraint x="0.7" y="1" perimeter="0" name="SE"/>
+        </connections>
+        <background>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1" />
+            <path>
+                <move x="0" y="45"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="30" y="45"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="0" y="45"/>
+                <close/>
+                <move x="20" y="45"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="50" y="45"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="20" y="45"/>
+                <close/>
+                <move x="10" y="30"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="40" y="30"/>
+                <arc rx="15" ry="15" x-axis-rotation="0" large-arc-flag="0" sweep-flag="1" x="10" y="30"/>
+                <close/>
+                <move x="25" y="0" />
+                <line x="25" y="15" />
+                <move x="15" y="60" />
+                <line x="15" y="75" />
+                <move x="35" y="60" />
+                <line x="35" y="75" />
+            </path>
+        </background>
+        <foreground>
+            <stroke/>
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="ncd" h="150" w="120" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0.5" y="0" perimeter="0" name="N"/>
+            <constraint x="0" y="1" perimeter="0" name="S"/>
+            <constraint x="1" y="1" perimeter="0" name="SE"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#ff0000"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#ff0000"/>
+            <rect h="60" w="30" x="15" y="60" />
+            <fillstroke/>
+            <strokecolor color="#ff0000"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#ff0000"/>
+            <rect h="60" w="30" x="75" y="60" />
+            <fillstroke/>
+            <stroke/>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1"/>
+            <path>
+                <move x="30" y="60"/>
+                <line x="30" y="30" />
+                <line x="90" y="30" />
+                <line x="90" y="60" />
+                <move x="60" y="0"/>
+                <line x="60" y="30" />
+                <move x="30" y="120"/>
+                <line x="30" y="150" />
+                <line x="0" y="150" />
+                <move x="90" y="120"/>
+                <line x="90" y="150" />
+                <line x="120" y="150" />
+            </path>
+            <stroke/>
+        </foreground>
+    </shape>
+</shapes>
