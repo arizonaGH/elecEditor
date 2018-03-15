@@ -986,13 +986,13 @@ Sidebar.prototype.addElectronicPalette = function(expanded, id, title, stencilFi
     var node = doc.createElement('obj')
     node.setAttribute('label', '');
     node.setAttribute('type', 'cable');
-    fns.push(this.createEdgeTemplateEntry('endArrow=none;html=1;strokeColor=#00FF00;', 50, 0, node, mxResources.get('cable'), null, 'connection simple undirected plain blank no'));
+    fns.push(this.createEdgeTemplateEntry('rounded=0;endArrow=none;html=1;strokeColor=#00FF00;', 50, 0, node, mxResources.get('cable'), null, 'connection simple undirected plain blank no'));
 
     doc = mxUtils.createXmlDocument();
     node = doc.createElement('obj')
     node.setAttribute('label', '');
     node.setAttribute('type', 'eline');
-    fns.push(this.createEdgeTemplateEntry('endArrow=none;html=1;strokeColor=#00FF00;', 0, 25, node, mxResources.get('eline'), null, 'connection simple undirected plain blank no'));
+    fns.push(this.createEdgeTemplateEntry('rounded=0;endArrow=none;html=1;strokeColor=#00FF00;', 0, 25, node, mxResources.get('eline'), null, 'connection simple undirected plain blank no'));
 
     doc = mxUtils.createXmlDocument();
     node = doc.createElement('obj')
