@@ -5374,10 +5374,12 @@ PropertiesPanel.prototype.init = function()
         "cable":{
             "basic":[
                 {"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"cableStyle","label":"cableStyle","type":"input"},
-                {"propertyName":"materials","label":"materials","type":"input"},
-                {"propertyName":"voltage","label":"voltage","type":"input"},
+                {"propertyName":"cableStyle","label":"cableStyle","type":"select","sourceType":"local","options":["online","cable"]},
+                {"propertyName":"cableModel","label":"cableModel","type":"select","sourceType":"http","options":[]},
+                {"propertyName":"materials","label":"materials","type":"select","sourceType":"local","options":["copper","aluminum"]},
+                {"propertyName":"voltage","label":"voltage","type":"select","sourceType":"http","options":[]},
                 {"propertyName":"diameters","label":"diameters", "type":"select","sourceType":"local","options":["10","20","30"]},
+                {"propertyName":"CableLength","label":"CableLength","type":"input"},
 
             ],
                 "runtime":[]
@@ -5395,7 +5397,11 @@ PropertiesPanel.prototype.init = function()
                 {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[]}
             ]
         },
-        "generatrix":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
+        "generatrix":{
+        	"basic":[
+        		{"propertyName":"name","label":"name","type":"input"},
+                {"propertyName":"voltage","label":"voltage","type":"input"},
+			],"runtime":[]},
         "eline":{"basic":[],"runtime":[]},
         "btcb":{
             "basic":[
