@@ -5374,12 +5374,12 @@ PropertiesPanel.prototype.init = function()
         "cable":{
             "basic":[
                 {"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"cableStyle","label":"cableStyle","type":"select","sourceType":"local","options":["online","cable"]},
-                {"propertyName":"cableModel","label":"cableModel","type":"select","sourceType":"http","options":[]},
-                {"propertyName":"materials","label":"materials","type":"select","sourceType":"local","options":["copper","aluminum"]},
-                {"propertyName":"voltage","label":"voltage","type":"select","sourceType":"http","options":[]},
-                {"propertyName":"diameters","label":"diameters", "type":"select","sourceType":"local","options":["10","20","30"]},
-                {"propertyName":"CableLength","label":"CableLength","type":"input"},
+                {"propertyName":"cableStyle","label":"cableStyle","type":"select","sourceType":"local","options":["1","2"], "optionsLabel":["online","cable"]},
+                {"propertyName":"cableModel","label":"cableModel","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
+                {"propertyName":"materials","label":"materials","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
+                {"propertyName":"diameters","label":"diameters", "type":"select","sourceType":"http","options":[],"optionsLabel":[]},
+                {"propertyName":"voltage","label":"voltage","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
+				{"propertyName":"cableLength","label":"cableLength","type":"input"},
 
             ],
                 "runtime":[]
@@ -5394,7 +5394,7 @@ PropertiesPanel.prototype.init = function()
                 {"propertyName":"IIIA","label":"IIIA","type":"input"},
             ],
             "runtime":[
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[]}
+                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
             ]
         },
         "generatrix":{
@@ -5410,7 +5410,7 @@ PropertiesPanel.prototype.init = function()
                 {"propertyName":"phasediff","label":"phasediff","type":"input"},
             ],
             "runtime": [
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[]}
+                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
             ]
         },
         "lcb":{
@@ -5420,15 +5420,15 @@ PropertiesPanel.prototype.init = function()
                 {"propertyName":"phasediff","label":"phasediff","type":"input"},
             ],
             "runtime":[
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[]}
+                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
             ]
         },
         "nc":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
         "ncd":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
         "textarea":{
             "basic":[
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[]},
-                {"propertyName":"variable","label":"variable","type":"select","sourceType":"http","options":[]}
+                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
+                {"propertyName":"variable","label":"variable","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
             ],
             "runtime":[]
         },
@@ -5469,7 +5469,7 @@ PropertiesPanel.prototype.addBasicParameter = function(div, cfg)
 		}
 		if(item.type == "select")
 		{
-			this.addSelect(div, item.label,item.propertyName, item.sourceType, item.options);
+			this.addSelect(div, item.label,item.propertyName, item.sourceType, item.options, item.optionsLabel);
 		}
 	}
 
@@ -5510,6 +5510,7 @@ PropertiesPanel.prototype.addInput = function(div, label, propertyName)
     row.style.overflow = 'hidden';
     row.style.width = '200px';
     row.style.height= '18px';
+    row.id = propertyName;
     //row.style.fontWeight = 'bold';
 
     var span = document.createElement('div');
@@ -5590,7 +5591,7 @@ PropertiesPanel.prototype.addInput = function(div, label, propertyName)
 /**
  * add select widget
  */
-PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceType, options)
+PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceType, options, labels)
 {
     var graph = this.editorUi.editor.graph;
 
@@ -5600,7 +5601,12 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
     row.style.overflow = 'hidden';
     row.style.width = '200px';
     row.style.height= '18px';
+    row.id = propertyName;
     //row.style.fontWeight = 'bold';
+    if(propertyName == "diameters" || propertyName =="materials")
+    {
+        row.style.display ="none";
+    }
 
     var span = document.createElement('div');
     span.style.position = 'absolute';
@@ -5619,19 +5625,25 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
     //styleSelect.setAttribute("id",propertyName);
 
 	var items = [];
+	var display = [];
 	if(sourceType == "http")
 	{
 
 	}
 	else {
 		items = options;
+		for(let i = 0; i<labels.length; i++)
+		{
+            display[i] = mxResources.get(labels[i]);
+		}
+
 	}
 
     for (var i = 0; i < items.length; i++)
     {
         var selectOption = document.createElement('option');
         selectOption.setAttribute('value', items[i]);
-        mxUtils.write(selectOption, items[i]);
+        mxUtils.write(selectOption, display[i]);
         select.appendChild(selectOption);
     }
 
@@ -5639,8 +5651,28 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
     mxUtils.br(row);
     div.appendChild(row);
 
+
     mxEvent.addListener(select, 'change', function(evt)
     {
+    	if(propertyName == "cableStyle")
+		{
+			let model = document.getElementById("cableModel");
+            let diameters = document.getElementById("diameters");
+            let materials = document.getElementById("materials");
+
+            if(select.value == 1)
+			{
+				(model == null) ? null : model.style.display = 'block';
+                (diameters == null) ? null : diameters.style.display = 'none';
+                (materials == null) ? null : materials.style.display = 'none';
+			}
+			if(select.value == 2)
+			{
+                (model == null) ? null : model.style.display = 'none';
+                (diameters == null) ? null : diameters.style.display = 'block';
+                (materials == null) ? null : materials.style.display = 'block';
+			}
+		}
         graph.getSelectionCell().getValue().setAttribute(propertyName, select.value);
         mxEvent.consume(evt);
     });
@@ -5651,6 +5683,25 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
         if(value != null)
 		{
             select.value = value;
+            // if(propertyName == "cableStyle")
+            // {
+            //     let model = document.getElementById("cableModel");
+            //     let diameters = document.getElementById("diameters");
+            //     let materials = document.getElementById("materials");
+            //
+            //     if(select.value == 1)
+            //     {
+            //         (model == null) ? null : model.style.display = 'block';
+            //         (diameters == null) ? null : diameters.style.display = 'none';
+            //         (materials == null) ? null : materials.style.display = 'none';
+            //     }
+            //     if(select.value == 2)
+            //     {
+            //         (model == null) ? null : model.style.display = 'none';
+            //         (diameters == null) ? null : diameters.style.display = 'block';
+            //         (materials == null) ? null : materials.style.display = 'block';
+            //     }
+            // }
 		}
     });
 

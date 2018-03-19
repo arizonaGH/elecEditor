@@ -334,9 +334,12 @@ runtime=运行参数
 
 name=名称
 cableStyle=形式
+cableModel=型号
 materials=材料
-diameters=线径
-voltage=使用电压等级
+diameters=线径（mm2）
+voltage=电压等级（kV）
+cableLength=长度（km）
+online=架空
 
 voltagestep=每档位调节电压
 
