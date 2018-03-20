@@ -3473,8 +3473,8 @@ EditorUi.prototype.save = function(name)
 			{
 				if (xml.length < MAX_REQUEST_SIZE)
 				{
-					new mxXmlRequest(SAVE_URL, 'filename=' + encodeURIComponent(name) +
-						'&xml=' + encodeURIComponent(xml)).simulate(document, '_blank');
+					new mxXmlRequest("http://114.215.90.83:8001/v1/graphs/1", 'filename=' + encodeURIComponent(name) +
+						'&xml=' + encodeURIComponent(xml) + '&id=1').simulate(document, '_blank');
 				}
 				else
 				{
