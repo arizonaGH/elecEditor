@@ -479,6 +479,8 @@ Format.prototype.refresh = function()
             this.container.appendChild(propertyPanel);
 
             addClickHandler(label3, propertyPanel, idx++);
+
+
 		}
 
 		// Text
@@ -5683,26 +5685,36 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
         if(value != null)
 		{
             select.value = value;
-            // if(propertyName == "cableStyle")
-            // {
-            //     let model = document.getElementById("cableModel");
-            //     let diameters = document.getElementById("diameters");
-            //     let materials = document.getElementById("materials");
-            //
-            //     if(select.value == 1)
-            //     {
-            //         (model == null) ? null : model.style.display = 'block';
-            //         (diameters == null) ? null : diameters.style.display = 'none';
-            //         (materials == null) ? null : materials.style.display = 'none';
-            //     }
-            //     if(select.value == 2)
-            //     {
-            //         (model == null) ? null : model.style.display = 'none';
-            //         (diameters == null) ? null : diameters.style.display = 'block';
-            //         (materials == null) ? null : materials.style.display = 'block';
-            //     }
-            // }
 		}
+
+		//by wangyanna
+        if(propertyName == "cableModel")
+        {
+            let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
+            if(v == "1")
+            {
+                select.parentElement.style.display = 'block';
+            }
+            if(v == "2")
+            {
+                select.parentElement.style.display = 'none';
+            }
+        }
+
+        if(propertyName == "diameters" || propertyName == "materials")
+        {
+            let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
+            if(v == "1")
+            {
+                select.parentElement.style.display = 'none';
+            }
+            if(v == "2")
+            {
+                select.parentElement.style.display = 'block';
+            }
+        }
+
+
     });
 
     graph.getModel().addListener(mxEvent.CHANGE, listener);
