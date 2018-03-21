@@ -237,6 +237,9 @@ Editor.prototype.enabled = true;
  */
 Editor.prototype.filename = null;
 
+//add by wangyanna,
+Editor.prototype.fileid = null;
+
 /**
  * Contains the current modified state of the diagram. This is false for
  * new diagrams and after the diagram was saved.
@@ -570,6 +573,15 @@ Editor.prototype.setFilename = function(value)
 	this.filename = value;
 };
 
+Editor.prototype.setFileid = function(value)
+{
+    this.fileid = value;
+};
+
+Editor.prototype.getFileid = function()
+{
+    return this.fileid;
+};
 /**
  * Creates and returns a new undo manager.
  */

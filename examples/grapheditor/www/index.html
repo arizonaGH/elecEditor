@@ -113,27 +113,32 @@
 				    var id = urlParams["id"];
 				    console.log(id);
 
-                    $.get("http://114.215.90.83:8001/v1/graphs/1",mxUtils.bind(ui, function(data,status){
-                        if(status != "success")
-                        {
-                            console.log("read xml failed :" +status);
-                        }
-                        var id = data.id;
-                        var filename = data.name;
-                        var xml  = data.content;
 
-                        var doc = mxUtils.parseXml(xml);
-                        ui.editor.setGraphXml(doc.documentElement);
-                        ui.editor.setModified(false);
-                        ui.editor.undoManager.clear();
+                    (function($) {
+                        //"http://114.215.90.83:8001/v1/graphs/1"
+                        $.get(BASE_URL+OPEN_URL+"/"+id,mxUtils.bind(ui, function(data,status){
+                            if(status != "success")
+                            {
+                                console.log("read xml failed :" +status);
+                            }
+                            var id = data.id;
+                            var filename = data.name;
+                            var xml  = data.content;
 
-                        ui.editor.setFileid(id);
-                        if (filename != null)
-                        {
-                            ui.editor.setFilename(filename);
-                            ui.updateDocumentTitle();
-                        }
-                    }));
+                            var doc = mxUtils.parseXml(xml);
+                            ui.editor.setGraphXml(doc.documentElement);
+                            ui.editor.setModified(false);
+                            ui.editor.undoManager.clear();
+
+                            ui.editor.setFileid(id);
+                            if (filename != null)
+                            {
+                                ui.editor.setFilename(filename);
+                                ui.updateDocumentTitle();
+                            }
+                        }));
+                    })(jQuery);
+
 
 				}
 			}, function()

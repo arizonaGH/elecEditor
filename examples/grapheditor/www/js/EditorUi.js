@@ -3417,12 +3417,12 @@ EditorUi.prototype.isCompatibleString = function(data)
  */
 EditorUi.prototype.saveFile = function(forceDialog)
 {
-	if (!forceDialog && this.editor.filename != null)
-	{
-		this.save(this.editor.getOrCreateFilename());
-	}
-	else
-	{
+	// if (!forceDialog && this.editor.filename != null)
+	// {
+	// 	this.save(this.editor.getOrCreateFilename());
+	// }
+	// else
+	// {
 		var dlg = new FilenameDialog(this, this.editor.getOrCreateFilename(), mxResources.get('save'), mxUtils.bind(this, function(name)
 		{
 			this.save(name);
@@ -3439,7 +3439,7 @@ EditorUi.prototype.saveFile = function(forceDialog)
 		}));
 		this.showDialog(dlg.container, 300, 100, true, true);
 		dlg.init();
-	}
+	//}
 };
 
 /**
@@ -3473,7 +3473,9 @@ EditorUi.prototype.save = function(name)
 			{
 				if (xml.length < MAX_REQUEST_SIZE)
 				{
-					new mxXmlRequest("http://114.215.90.83:8001/v1/graphs/1", 'filename=' + encodeURIComponent(name) +
+					var id = this.editor.getFileid();
+                    //"http://114.215.90.83:8001/v1/graphs/1"
+					new mxXmlRequest(BASE_URL+SAVE_URL+'/'+1, 'filename=' + encodeURIComponent(name) +
 						'&xml=' + encodeURIComponent(xml) + '&id=1').simulate(document, '_blank');
 				}
 				else
