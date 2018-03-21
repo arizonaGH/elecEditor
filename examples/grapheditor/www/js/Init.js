@@ -9,7 +9,8 @@ window.MAX_AREA = window.MAX_AREA || 15000 * 15000;
 window.BASE_URL = window.BASE_URL || 'http://114.215.90.83:8001/v1';
 window.SAVE_URL = window.SAVE_URL || '/graphs';
 window.OPEN_URL = window.OPEN_URL || '/graphs';
-window.CABLE_URL = window.CABLE_URL || "/cables/refers"
+window.CABLE_URL = window.CABLE_URL || "/cables/refers";
+window.DEVICE_URL = window.DEVICE_URL || "/devices";
 
 window.EXPORT_URL = window.EXPORT_URL || '/export';
 window.RESOURCES_PATH = window.RESOURCES_PATH || 'resources';

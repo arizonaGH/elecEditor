@@ -5339,7 +5339,6 @@ PropertiesPanel = function(format, editorUi, container)
 {
     BaseFormatPanel.call(this, format, editorUi, container);
     this.init();
-    this.load();
 };
 
 mxUtils.extend(PropertiesPanel, BaseFormatPanel);
@@ -5372,7 +5371,7 @@ PropertiesPanel.prototype.propertiesJson = {
             {"propertyName":"IIIA","label":"IIIA","type":"input"},
         ],
         "runtime":[
-            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
         ]
     },
     "generatrix":{
@@ -5388,7 +5387,7 @@ PropertiesPanel.prototype.propertiesJson = {
             {"propertyName":"phasediff","label":"phasediff","type":"input"},
         ],
         "runtime": [
-            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
         ]
     },
     "lcb":{
@@ -5398,7 +5397,7 @@ PropertiesPanel.prototype.propertiesJson = {
             {"propertyName":"phasediff","label":"phasediff","type":"input"},
         ],
         "runtime":[
-            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
         ]
     },
     "nc":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
@@ -5412,52 +5411,92 @@ PropertiesPanel.prototype.propertiesJson = {
     },
     "group":{"basic":[],"runtime":[]},
 };
-PropertiesPanel.prototype.load = function () {
+PropertiesPanel.prototype.loadCable = function () {
     //load cable configuration
 	var panel = this;
     (function($) {
-        $.get(BASE_URL + CABLE_URL, mxUtils.bind(panel, function(data,status){
-            if(status != "success")
-            {
-                console.log("read configuration failed :" +status);
-            }
+        $.ajax({
+            url : BASE_URL + CABLE_URL,
+            type : 'get',
+            async: false,//使用同步的方式,true为异步方式
+            success : mxUtils.bind(panel, function(data,status){
+                if(status != "success")
+                {
+                    console.log("read configuration failed :" +status);
+                }
 
-            //TODO 处理电缆形式
-			var index = 1;
-			for(let i = 0; i< data.cableStyle.options.length; i++)
-			{
-				if(data.cableStyle.options[i] =="electric")
-				{
-                    panel.propertiesJson.cable.basic[1].options[0] = data.cableStyle.options[i];
-                    panel.propertiesJson.cable.basic[1].optionsLabel[0] = data.cableStyle.optionLabels[i];
-				}
-				else
-				{
-                    panel.propertiesJson.cable.basic[1].options[index] = data.cableStyle.options[i];
-                    panel.propertiesJson.cable.basic[1].optionsLabel[index] = data.cableStyle.optionLabels[i];
-                    index++;
-				}
-			}
-            // panel.propertiesJson.cable.basic[1].options = data.cableStyle.options;
-            // panel.propertiesJson.cable.basic[1].optionsLabel = data.cableStyle.optionLabels;
+                //TODO 处理电缆形式
+                var index = 1;
+                for(let i = 0; i< data.cableStyle.options.length; i++)
+                {
+                    if(data.cableStyle.options[i] =="electric")
+                    {
+                        panel.propertiesJson.cable.basic[1].options[0] = data.cableStyle.options[i];
+                        panel.propertiesJson.cable.basic[1].optionsLabel[0] = data.cableStyle.optionLabels[i];
+                    }
+                    else
+                    {
+                        panel.propertiesJson.cable.basic[1].options[index] = data.cableStyle.options[i];
+                        panel.propertiesJson.cable.basic[1].optionsLabel[index] = data.cableStyle.optionLabels[i];
+                        index++;
+                    }
+                }
+                // panel.propertiesJson.cable.basic[1].options = data.cableStyle.options;
+                // panel.propertiesJson.cable.basic[1].optionsLabel = data.cableStyle.optionLabels;
 
-            panel.propertiesJson.cable.basic[2].options = data.cableModel.options;
-            panel.propertiesJson.cable.basic[2].optionsLabel = data.cableModel.optionLabels;
+                panel.propertiesJson.cable.basic[2].options = data.cableModel.options;
+                panel.propertiesJson.cable.basic[2].optionsLabel = data.cableModel.optionLabels;
 
-            panel.propertiesJson.cable.basic[3].options = data.materials.options;
-            panel.propertiesJson.cable.basic[3].optionsLabel = data.materials.optionLabels;
+                panel.propertiesJson.cable.basic[3].options = data.materials.options;
+                panel.propertiesJson.cable.basic[3].optionsLabel = data.materials.optionLabels;
 
-            panel.propertiesJson.cable.basic[4].options = data.diameters.options;
-            panel.propertiesJson.cable.basic[4].optionsLabel = data.diameters.optionLabels;
+                panel.propertiesJson.cable.basic[4].options = data.diameters.options;
+                panel.propertiesJson.cable.basic[4].optionsLabel = data.diameters.optionLabels;
 
-            panel.propertiesJson.cable.basic[5].options = data.voltage.options;
-            panel.propertiesJson.cable.basic[5].optionsLabel = data.voltage.optionLabels;
+                panel.propertiesJson.cable.basic[5].options = data.voltage.options;
+                panel.propertiesJson.cable.basic[5].optionsLabel = data.voltage.optionLabels;
 
-			panel.init();
-
-        }));
+            })
+        });
     })(jQuery);
-}
+};
+
+PropertiesPanel.prototype.loadDevice = function () {
+    //load cable configuration
+    var panel = this;
+    (function($) {
+        $.ajax({
+            url : BASE_URL + DEVICE_URL,
+            type : 'get',
+            async: false,//使用同步的方式,true为异步方式
+            success : mxUtils.bind(panel, function(data,status){
+                if(status != "success")
+                {
+                    console.log("read device failed :" +status);
+                }
+
+                var options =[];
+                var labels=[];
+                for(var i = 0; i<data.length; i++)
+                {
+                    options.push(data[i].sn);
+                    labels.push(data[i].name);
+                }
+
+                panel.propertiesJson.pcb.runtime[0].options = options;
+                panel.propertiesJson.pcb.runtime[0].optionsLabel = labels;
+
+                panel.propertiesJson.btcb.runtime[0].options = options;
+                panel.propertiesJson.btcb.runtime[0].optionsLabel = labels;
+
+                panel.propertiesJson.lcb.runtime[0].options = options;
+                panel.propertiesJson.lcb.runtime[0].optionsLabel = labels;
+
+            })
+        });
+    })(jQuery);
+};
+
 PropertiesPanel.prototype.init = function()
 {
 
@@ -5487,7 +5526,16 @@ PropertiesPanel.prototype.init = function()
     {
         return;
     }
-    //遍历元件属性
+
+    if(elementType == "cable")
+	{
+		this.loadCable();
+	}
+	if(elementType == "pcb" || elementType == "lcb" || elementType == "btcb")
+	{
+		this.loadDevice();
+	}
+
     var basicCfg = this.propertiesJson[elementType].basic;
     var runtimeCfg = this.propertiesJson[elementType].runtime;
 
@@ -5503,6 +5551,8 @@ PropertiesPanel.prototype.init = function()
         this.container.appendChild(this.addRuntimeParameter(this.createPanel(), runtimeCfg));
     }
 };
+
+
 
 /**
  * add input widget
@@ -5541,7 +5591,7 @@ PropertiesPanel.prototype.addRuntimeParameter = function(div, cfg)
         }
         if(item.type == "select")
         {
-            this.addSelect(div, item.label,item.propertyName,item.sourceType, item.options);
+            this.addSelect(div, item.label,item.propertyName,item.sourceType, item.options, item.optionsLabel);
         }
     }
 
