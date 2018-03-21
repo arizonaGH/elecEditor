@@ -5404,8 +5404,8 @@ PropertiesPanel.prototype.propertiesJson = {
     "ncd":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
     "textarea":{
         "basic":[
-            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
-            {"propertyName":"variable","label":"variable","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]},
+            {"propertyName":"variable","label":"variable","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
         ],
         "runtime":[]
     },
@@ -5426,23 +5426,23 @@ PropertiesPanel.prototype.loadCable = function () {
                 }
 
                 //TODO 处理电缆形式
-                var index = 1;
-                for(let i = 0; i< data.cableStyle.options.length; i++)
-                {
-                    if(data.cableStyle.options[i] =="electric")
-                    {
-                        panel.propertiesJson.cable.basic[1].options[0] = data.cableStyle.options[i];
-                        panel.propertiesJson.cable.basic[1].optionsLabel[0] = data.cableStyle.optionLabels[i];
-                    }
-                    else
-                    {
-                        panel.propertiesJson.cable.basic[1].options[index] = data.cableStyle.options[i];
-                        panel.propertiesJson.cable.basic[1].optionsLabel[index] = data.cableStyle.optionLabels[i];
-                        index++;
-                    }
-                }
-                // panel.propertiesJson.cable.basic[1].options = data.cableStyle.options;
-                // panel.propertiesJson.cable.basic[1].optionsLabel = data.cableStyle.optionLabels;
+                // var index = 1;
+                // for(let i = 0; i< data.cableStyle.options.length; i++)
+                // {
+                //     if(data.cableStyle.options[i] =="electric")
+                //     {
+                //         panel.propertiesJson.cable.basic[1].options[0] = data.cableStyle.options[i];
+                //         panel.propertiesJson.cable.basic[1].optionsLabel[0] = data.cableStyle.optionLabels[i];
+                //     }
+                //     else
+                //     {
+                //         panel.propertiesJson.cable.basic[1].options[index] = data.cableStyle.options[i];
+                //         panel.propertiesJson.cable.basic[1].optionsLabel[index] = data.cableStyle.optionLabels[i];
+                //         index++;
+                //     }
+                // }
+                panel.propertiesJson.cable.basic[1].options = data.cableStyle.options;
+                panel.propertiesJson.cable.basic[1].optionsLabel = data.cableStyle.optionLabels;
 
                 panel.propertiesJson.cable.basic[2].options = data.cableModel.options;
                 panel.propertiesJson.cable.basic[2].optionsLabel = data.cableModel.optionLabels;
@@ -5469,12 +5469,7 @@ PropertiesPanel.prototype.loadDevice = function () {
             url : BASE_URL + DEVICE_URL,
             type : 'get',
             async: false,//使用同步的方式,true为异步方式
-            success : mxUtils.bind(panel, function(data,status){
-                if(status != "success")
-                {
-                    console.log("read device failed :" +status);
-                }
-
+            success : mxUtils.bind(panel, function(data){
                 var options =[];
                 var labels=[];
                 for(var i = 0; i<data.length; i++)
@@ -5492,7 +5487,52 @@ PropertiesPanel.prototype.loadDevice = function () {
                 panel.propertiesJson.lcb.runtime[0].options = options;
                 panel.propertiesJson.lcb.runtime[0].optionsLabel = labels;
 
+                panel.propertiesJson.textarea.basic[0].options = options;
+                panel.propertiesJson.textarea.basic[0].optionsLabel = labels;
+
+                if(options.length > 0)
+				{
+                    panel.loadVar(options[0]);
+				}
+
+
             })
+        });
+    })(jQuery);
+};
+
+PropertiesPanel.prototype.loadVar = function (devSn) {
+    //load cable configuration
+    var panel = this;
+    (function($) {
+        $.ajax({
+            url : BASE_URL + "/devices/"+devSn+"/vars",
+            type : 'get',
+            async: false,//使用同步的方式,true为异步方式
+            success : mxUtils.bind(panel, function(data){
+                var options =[];
+                var labels=[];
+                for(var i = 0; i<data.length; i++)
+                {
+                    options.push(data[i].sn);
+                    labels.push(data[i].name);
+                }
+
+                panel.propertiesJson.textarea.basic[1].options = options;
+                panel.propertiesJson.textarea.basic[1].optionsLabel = labels;
+
+            })
+        });
+    })(jQuery);
+};
+
+PropertiesPanel.prototype.getVars = function (devSn) {
+
+    return (function($) {
+        return $.ajax({
+            url : BASE_URL + "/devices/"+devSn+"/vars",
+            type : 'get',
+            async: false,
         });
     })(jQuery);
 };
@@ -5531,7 +5571,7 @@ PropertiesPanel.prototype.init = function()
 	{
 		this.loadCable();
 	}
-	if(elementType == "pcb" || elementType == "lcb" || elementType == "btcb")
+	if(elementType == "pcb" || elementType == "lcb" || elementType == "btcb" || elementType=="textarea")
 	{
 		this.loadDevice();
 	}
@@ -5703,9 +5743,32 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
     row.style.height= '18px';
     row.id = propertyName;
     //row.style.fontWeight = 'bold';
+
+    //by wangyanna
     if(propertyName == "cableModel")
     {
-        row.style.display ="none";
+        let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
+        if(v == "aerial")
+        {
+            row.style.display ="block";
+        }
+        if(v == "electric")
+        {
+            row.style.display ="none";
+        }
+    }
+
+    if(propertyName == "diameters" || propertyName == "materials")
+    {
+        let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
+        if(v == "aerial")
+        {
+            row.style.display ="none";
+        }
+        if(v == "electric")
+        {
+            row.style.display ="block";
+        }
     }
 
     var span = document.createElement('div');
@@ -5743,13 +5806,22 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
         select.appendChild(selectOption);
     }
 
+    //by wangyanna 把select的默认值设置到属性中
+	var value = graph.getSelectionCell().getValue().getAttribute(propertyName);
+	if(value == null)
+	{
+        graph.getSelectionCell().getValue().setAttribute(propertyName, items[0]);
+	}
+
+
     row.appendChild(select);
     mxUtils.br(row);
     div.appendChild(row);
 
-
+	var panel = this;
     mxEvent.addListener(select, 'change', function(evt)
     {
+    	//by wangyanna 控制电缆属性的隐藏和显示
     	if(propertyName == "cableStyle")
 		{
 			let model = document.getElementById("cableModel");
@@ -5769,6 +5841,34 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
                 (materials == null) ? null : materials.style.display = 'block';
 			}
 		}
+
+		// by wangyanna 文本框中选择device后，变量内容随之变化
+		if(graph.getSelectionCell().getValue().getAttribute("type")=="textarea" && propertyName == "device")
+		{
+			var ret = panel.getVars(select.value);
+			if(ret.status == 200)
+			{
+				var vars = ret.responseJSON;
+                var x = document.getElementById("variable").childNodes[1];
+                x.innerHTML='';
+				for(var i = 0; i<vars.length; i++)
+				{
+                    var varOption = document.createElement('option');
+                    varOption.setAttribute('value', vars[i].sn);
+                    mxUtils.write(varOption, vars[i].name);
+                    x.appendChild(varOption);
+				}
+				if(vars.length > 0)
+				{
+                    graph.getSelectionCell().getValue().setAttribute("variable", vars[0].sn);
+				}
+
+
+			}
+
+		}
+
+
         graph.getSelectionCell().getValue().setAttribute(propertyName, select.value);
         mxEvent.consume(evt);
     });
@@ -5781,32 +5881,50 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
             select.value = value;
 		}
 
-		//by wangyanna
-        if(propertyName == "cableModel")
-        {
-            let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
-            if(v == "aerial")
-            {
-                select.parentElement.style.display = 'block';
-            }
-            if(v == "electric")
-            {
-                select.parentElement.style.display = 'none';
+		//变量的下拉列表需要根据device重新取值，然后再设置
+        if(propertyName == "variable") {
+            let v = graph.getSelectionCell().getValue().getAttribute("device");
+            var ret = panel.getVars(v);
+            if (ret.status == 200) {
+                var vars = ret.responseJSON;
+
+                select.innerHTML = '';
+                for (var i = 0; i < vars.length; i++) {
+                    var varOption = document.createElement('option');
+                    varOption.setAttribute('value', vars[i].sn);
+                    mxUtils.write(varOption, vars[i].name);
+                    select.appendChild(varOption);
+                }
+                select.value = value;
             }
         }
 
-        if(propertyName == "diameters" || propertyName == "materials")
-        {
-            let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
-            if(v == "aerial")
-            {
-                select.parentElement.style.display = 'none';
-            }
-            if(v == "electric")
-            {
-                select.parentElement.style.display = 'block';
-            }
-        }
+		//by wangyanna
+        // if(propertyName == "cableModel")
+        // {
+         //    let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
+         //    if(v == "aerial")
+         //    {
+         //        select.parentElement.style.display = 'block';
+         //    }
+         //    if(v == "electric")
+         //    {
+         //        select.parentElement.style.display = 'none';
+         //    }
+        // }
+        //
+        // if(propertyName == "diameters" || propertyName == "materials")
+        // {
+         //    let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
+         //    if(v == "aerial")
+         //    {
+         //        select.parentElement.style.display = 'none';
+         //    }
+         //    if(v == "electric")
+         //    {
+         //        select.parentElement.style.display = 'block';
+         //    }
+        // }
 
 
     });
