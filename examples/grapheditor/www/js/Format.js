@@ -5339,6 +5339,7 @@ PropertiesPanel = function(format, editorUi, container)
 {
     BaseFormatPanel.call(this, format, editorUi, container);
     this.init();
+    this.load();
 };
 
 mxUtils.extend(PropertiesPanel, BaseFormatPanel);
@@ -5346,6 +5347,117 @@ mxUtils.extend(PropertiesPanel, BaseFormatPanel);
 /**
  * Adds the label menu items to the given menu and parent.
  */
+
+PropertiesPanel.prototype.propertiesJson = {
+    "cable":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"cableStyle","label":"cableStyle","type":"select","sourceType":"local","options":[], "optionsLabel":[]},
+            {"propertyName":"cableModel","label":"cableModel","type":"select","sourceType":"local","options":[],"optionsLabel":[]},
+            {"propertyName":"materials","label":"materials","type":"select","sourceType":"local","options":[],"optionsLabel":[]},
+            {"propertyName":"diameters","label":"diameters", "type":"select","sourceType":"local","options":[],"optionsLabel":[]},
+            {"propertyName":"voltage","label":"voltage","type":"select","sourceType":"local","options":[],"optionsLabel":[]},
+            {"propertyName":"cableLength","label":"cableLength","type":"input"},
+
+        ],
+        "runtime":[]
+    },
+    "PT2":{"basic":[{"propertyName":"voltagestep","label":"voltagestep","type":"input"}],"runtime":[]},
+    "PT3":{"basic":[{"propertyName":"voltagestep","label":"voltagestep","type":"input"}],"runtime":[]},
+    "pcb":{
+        "basic": [
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"IA","label":"IA","type":"input"},
+            {"propertyName":"IIA","label":"IIA","type":"input"},
+            {"propertyName":"IIIA","label":"IIIA","type":"input"},
+        ],
+        "runtime":[
+            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+        ]
+    },
+    "generatrix":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"voltage","label":"voltage","type":"input"},
+        ],"runtime":[]},
+    "eline":{"basic":[],"runtime":[]},
+    "btcb":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
+            {"propertyName":"phasediff","label":"phasediff","type":"input"},
+        ],
+        "runtime": [
+            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+        ]
+    },
+    "lcb":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
+            {"propertyName":"phasediff","label":"phasediff","type":"input"},
+        ],
+        "runtime":[
+            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+        ]
+    },
+    "nc":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
+    "ncd":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
+    "textarea":{
+        "basic":[
+            {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
+            {"propertyName":"variable","label":"variable","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
+        ],
+        "runtime":[]
+    },
+    "group":{"basic":[],"runtime":[]},
+};
+PropertiesPanel.prototype.load = function () {
+    //load cable configuration
+	var panel = this;
+    (function($) {
+        $.get(BASE_URL + CABLE_URL, mxUtils.bind(panel, function(data,status){
+            if(status != "success")
+            {
+                console.log("read configuration failed :" +status);
+            }
+
+            //TODO 处理电缆形式
+			var index = 1;
+			for(let i = 0; i< data.cableStyle.options.length; i++)
+			{
+				if(data.cableStyle.options[i] =="electric")
+				{
+                    panel.propertiesJson.cable.basic[1].options[0] = data.cableStyle.options[i];
+                    panel.propertiesJson.cable.basic[1].optionsLabel[0] = data.cableStyle.optionLabels[i];
+				}
+				else
+				{
+                    panel.propertiesJson.cable.basic[1].options[index] = data.cableStyle.options[i];
+                    panel.propertiesJson.cable.basic[1].optionsLabel[index] = data.cableStyle.optionLabels[i];
+                    index++;
+				}
+			}
+            // panel.propertiesJson.cable.basic[1].options = data.cableStyle.options;
+            // panel.propertiesJson.cable.basic[1].optionsLabel = data.cableStyle.optionLabels;
+
+            panel.propertiesJson.cable.basic[2].options = data.cableModel.options;
+            panel.propertiesJson.cable.basic[2].optionsLabel = data.cableModel.optionLabels;
+
+            panel.propertiesJson.cable.basic[3].options = data.materials.options;
+            panel.propertiesJson.cable.basic[3].optionsLabel = data.materials.optionLabels;
+
+            panel.propertiesJson.cable.basic[4].options = data.diameters.options;
+            panel.propertiesJson.cable.basic[4].optionsLabel = data.diameters.optionLabels;
+
+            panel.propertiesJson.cable.basic[5].options = data.voltage.options;
+            panel.propertiesJson.cable.basic[5].optionsLabel = data.voltage.optionLabels;
+
+			panel.init();
+
+        }));
+    })(jQuery);
+}
 PropertiesPanel.prototype.init = function()
 {
 
@@ -5371,89 +5483,25 @@ PropertiesPanel.prototype.init = function()
 		return;
 	}
 
-	//TODO: 加载json配置文件
-	var propertiesJson = {
-        "cable":{
-            "basic":[
-                {"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"cableStyle","label":"cableStyle","type":"select","sourceType":"local","options":["1","2"], "optionsLabel":["online","cable"]},
-                {"propertyName":"cableModel","label":"cableModel","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
-                {"propertyName":"materials","label":"materials","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
-                {"propertyName":"diameters","label":"diameters", "type":"select","sourceType":"http","options":[],"optionsLabel":[]},
-                {"propertyName":"voltage","label":"voltage","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
-				{"propertyName":"cableLength","label":"cableLength","type":"input"},
+    if(!(elementType in this.propertiesJson))
+    {
+        return;
+    }
+    //遍历元件属性
+    var basicCfg = this.propertiesJson[elementType].basic;
+    var runtimeCfg = this.propertiesJson[elementType].runtime;
 
-            ],
-                "runtime":[]
-        },
-        "PT2":{"basic":[{"propertyName":"voltagestep","label":"voltagestep","type":"input"}],"runtime":[]},
-        "PT3":{"basic":[{"propertyName":"voltagestep","label":"voltagestep","type":"input"}],"runtime":[]},
-        "pcb":{
-            "basic": [
-                {"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"IA","label":"IA","type":"input"},
-                {"propertyName":"IIA","label":"IIA","type":"input"},
-                {"propertyName":"IIIA","label":"IIIA","type":"input"},
-            ],
-            "runtime":[
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
-            ]
-        },
-        "generatrix":{
-        	"basic":[
-        		{"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"voltage","label":"voltage","type":"input"},
-			],"runtime":[]},
-        "eline":{"basic":[],"runtime":[]},
-        "btcb":{
-            "basic":[
-                {"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
-                {"propertyName":"phasediff","label":"phasediff","type":"input"},
-            ],
-            "runtime": [
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
-            ]
-        },
-        "lcb":{
-            "basic":[
-                {"propertyName":"name","label":"name","type":"input"},
-                {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
-                {"propertyName":"phasediff","label":"phasediff","type":"input"},
-            ],
-            "runtime":[
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
-            ]
-        },
-        "nc":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
-        "ncd":{"basic":[{"propertyName":"name","label":"name","type":"input"}],"runtime":[]},
-        "textarea":{
-            "basic":[
-                {"propertyName":"device","label":"device","type":"select","sourceType":"http","options":[],"optionsLabel":[]},
-                {"propertyName":"variable","label":"variable","type":"select","sourceType":"http","options":[],"optionsLabel":[]}
-            ],
-            "runtime":[]
-        },
-        "group":{"basic":[],"runtime":[]},
-	};
+    this.container.innerHTML = '';
 
-    if(!(elementType in propertiesJson))
-	{
-		return;
-	}
-	//遍历元件属性
-	var basicCfg = propertiesJson[elementType].basic;
-	var runtimeCfg = propertiesJson[elementType].runtime;
-
-	if(basicCfg.length > 0)
-	{
+    if(basicCfg.length > 0)
+    {
         this.container.appendChild(this.addBasicParameter(this.createPanel(), basicCfg));
-	}
+    }
 
-	if(runtimeCfg.length > 0)
-	{
+    if(runtimeCfg.length > 0)
+    {
         this.container.appendChild(this.addRuntimeParameter(this.createPanel(), runtimeCfg));
-	}
+    }
 };
 
 /**
@@ -5605,7 +5653,7 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
     row.style.height= '18px';
     row.id = propertyName;
     //row.style.fontWeight = 'bold';
-    if(propertyName == "diameters" || propertyName =="materials")
+    if(propertyName == "cableModel")
     {
         row.style.display ="none";
     }
@@ -5634,11 +5682,7 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
 	}
 	else {
 		items = options;
-		for(let i = 0; i<labels.length; i++)
-		{
-            display[i] = mxResources.get(labels[i]);
-		}
-
+		display = labels;
 	}
 
     for (var i = 0; i < items.length; i++)
@@ -5662,13 +5706,13 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
             let diameters = document.getElementById("diameters");
             let materials = document.getElementById("materials");
 
-            if(select.value == 1)
+            if(select.value == "aerial")
 			{
 				(model == null) ? null : model.style.display = 'block';
                 (diameters == null) ? null : diameters.style.display = 'none';
                 (materials == null) ? null : materials.style.display = 'none';
 			}
-			if(select.value == 2)
+			if(select.value == "electric")
 			{
                 (model == null) ? null : model.style.display = 'none';
                 (diameters == null) ? null : diameters.style.display = 'block';
@@ -5691,11 +5735,11 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
         if(propertyName == "cableModel")
         {
             let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
-            if(v == "1")
+            if(v == "aerial")
             {
                 select.parentElement.style.display = 'block';
             }
-            if(v == "2")
+            if(v == "electric")
             {
                 select.parentElement.style.display = 'none';
             }
@@ -5704,11 +5748,11 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
         if(propertyName == "diameters" || propertyName == "materials")
         {
             let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
-            if(v == "1")
+            if(v == "aerial")
             {
                 select.parentElement.style.display = 'none';
             }
-            if(v == "2")
+            if(v == "electric")
             {
                 select.parentElement.style.display = 'block';
             }
