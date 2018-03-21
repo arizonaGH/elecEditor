@@ -3473,9 +3473,9 @@ EditorUi.prototype.save = function(name)
 			{
 				if (xml.length < MAX_REQUEST_SIZE)
 				{
-					var id = this.editor.getFileid() || 1;
+					// var id = this.editor.getFileid() || 1;
                     //"http://114.215.90.83:8001/v1/graphs/1"
-                    // var id = urlParams.id || 1;
+                    var id = urlParams.id || 1;
 
 					new mxXmlRequest(BASE_URL+SAVE_URL+'/'+id, 'filename=' + encodeURIComponent(name) +
 						'&xml=' + encodeURIComponent(xml) + '&id=1').simulate(document, '_blank');
