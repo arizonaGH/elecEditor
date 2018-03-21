@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="styles/grapheditor.css">
+    <script type="text/javascript" src="../../../src/js/jquery/jquery-3.3.1.js"></script>
 	<script type="text/javascript">
 		// Parses URL parameters. Supported parameters are:
 		// - lang=xy: Specifies the language of the user interface.
@@ -100,9 +101,41 @@
 				
 				// Main
 				var ui = new EditorUi(new Editor(urlParams['chrome'] == '0', themes));
+
+				//设置默认样式, add by wangyanna
 				ui.setBackgroundColor('#000000');
                 ui.setGridColor('#333333');
 				ui.editor.graph.setGridSize(4);
+
+				//加载指定xml
+				if("id" in urlParams)
+				{
+				    var id = urlParams["id"];
+				    console.log(id);
+
+                    $.get("http://114.215.90.83:8001/v1/graphs/1",mxUtils.bind(ui, function(data,status){
+                        if(status != "success")
+                        {
+                            console.log("read xml failed :" +status);
+                        }
+                        var id = data.id;
+                        var filename = data.name;
+                        var xml  = data.content;
+
+                        var doc = mxUtils.parseXml(xml);
+                        ui.editor.setGraphXml(doc.documentElement);
+                        ui.editor.setModified(false);
+                        ui.editor.undoManager.clear();
+
+                        ui.editor.setFileid(id);
+                        if (filename != null)
+                        {
+                            ui.editor.setFilename(filename);
+                            ui.updateDocumentTitle();
+                        }
+                    }));
+
+				}
 			}, function()
 			{
 				document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
