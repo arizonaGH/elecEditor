@@ -16,7 +16,10 @@
 
 	<!-- Loads and initializes the library -->
 	<script type="text/javascript" src="../../../src/js/mxClient.js"></script>
+	<script type="text/javascript" src="sanitizer/sanitizer.min.js"></script>
 	<script type="text/javascript" src="js/Init.js"></script>
+	<script type="text/javascript" src="monitor/mtGraph.js"></script>
+
 	<!-- Example code -->
 	<script type="text/javascript">
         var urlParams = (function(url)
@@ -111,16 +114,86 @@
 
                 container.innerHTML = '';
 
-                var graph = new mxGraph(container);
+                var graph = new mtGraph(container);
 
                 graph.centerZoom = false;
                 graph.setTooltips(false);
-                graph.setEnabled(true);
+                graph.setEnabled(false);
+
+
+
+                // graph.addListener(mxEvent.GESTURE, function(sender, eo)
+                // {
+                //     var evt = eo.getProperty('event');
+                //     var state = graph.view.getState(eo.getProperty('cell'));
+                //
+                //     if (graph.isEnabled() && graph.isCellResizable(state.cell) && Math.abs(1 - evt.scale) > 0.2)
+                //     {
+                //         var scale = graph.view.scale;
+                //         var tr = graph.view.translate;
+                //
+                //         var w = state.width * evt.scale;
+                //         var h = state.height * evt.scale;
+                //         var x = state.x - (w - state.width) / 2;
+                //         var y = state.y - (h - state.height) / 2;
+                //
+                //         var bounds = new mxRectangle(graph.snap(x / scale) - tr.x,
+                //             graph.snap(y / scale) - tr.y, graph.snap(w / scale), graph.snap(h / scale));
+                //         graph.resizeCell(state.cell, bounds);
+                //         eo.consume();
+                //     }
+                // });
 
                 decoder.decode(node, graph.getModel());
                 graph.resizeContainer = true;
 
             }
+
+            /////
+            // Adds required resources (disables loading of fallback properties, this can only
+            // be used if we know that all keys are defined in the language specific file)
+            // mxResources.loadDefaultBundle = false;
+            // var bundle ="resources/grapheditor.txt";
+            //
+            // mxUtils.getAll([bundle, STYLE_PATH + '/default.xml'], function(xhr)
+            // {
+            //     // Adds bundle text to resources
+            //     mxResources.parse(xhr[0].getText());
+            //
+            //     // Configures the default graph theme
+            //     var themes = new Object();
+            //     themes[Graph.prototype.defaultThemeName] = xhr[1].getDocumentElement();
+            //
+            //     var data = loadFile(id);
+            //     var container = document.getElementById("container");
+            //     document.title = data.name;
+            //
+            //     var xml  = data.content;
+            //     var xmlDocument = mxUtils.parseXml(xml);
+            //
+            //     if (xmlDocument.documentElement != null && xmlDocument.documentElement.nodeName == 'mxGraphModel')
+            //     {
+            //         var decoder = new mxCodec(xmlDocument);
+            //         var node = xmlDocument.documentElement;
+            //
+            //         container.innerHTML = '';
+            //
+            //         var graph = new Graph(container);
+            //
+            //         graph.centerZoom = false;
+            //         graph.setTooltips(false);
+            //         graph.setEnabled(false);
+            //
+            //         decoder.decode(node, graph.getModel());
+            //         graph.resizeContainer = true;
+            //
+            //     }
+            //
+            //
+            // }, function()
+            // {
+            //     document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
+            // });
 		};
 	</script>
 </head>
