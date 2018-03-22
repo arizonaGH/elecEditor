@@ -5530,10 +5530,10 @@ PropertiesPanel.prototype.loadDevice = function () {
                 panel.propertiesJson.textarea.basic[0].options = options;
                 panel.propertiesJson.textarea.basic[0].optionsLabel = labels;
 
-                if(options.length > 0)
-				{
-                    panel.loadVar(options[0]);
-				}
+                // if(options.length > 0)
+				// {
+                 //    panel.loadVar(options[0]);
+				// }
 
 
             })
@@ -5567,6 +5567,11 @@ PropertiesPanel.prototype.loadVar = function (devSn) {
 };
 
 PropertiesPanel.prototype.getVars = function (devSn) {
+    var data = {"sn":[], name:[]};
+	if(devSn == "" || devSn == null)
+	{
+		return data;
+	}
 	var ret = (function($) {
         return $.ajax({
             url : BASE_URL + "/devices/"+devSn+"/vars",
@@ -5575,7 +5580,6 @@ PropertiesPanel.prototype.getVars = function (devSn) {
         });
     })(jQuery);
 
-	var data = {"sn":[], name:[]};
     if (ret.status == 200) {
         var vars = ret.responseJSON;
         for (var i = 0; i < vars.length; i++) {
@@ -5859,11 +5863,14 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
         select.appendChild(selectOption);
     }
 
-    //by wangyanna 把select的默认值设置到属性中
+    //by wangyanna 属性中没有值的情况下，把select的默认值设置到属性中
 	var value = graph.getSelectionCell().getValue().getAttribute(propertyName);
 	if(value == null)
 	{
-        graph.getSelectionCell().getValue().setAttribute(propertyName, items[0]);
+		if(items.length > 0)
+		{
+            graph.getSelectionCell().getValue().setAttribute(propertyName, items[0]);
+		}
 	}
 
 
@@ -5913,6 +5920,9 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
             {
                 graph.getSelectionCell().getValue().setAttribute("variable", ret.sn[0]);
             }
+            else {
+                graph.getSelectionCell().getValue().setAttribute("variable", '');
+			}
 
 		}
 
