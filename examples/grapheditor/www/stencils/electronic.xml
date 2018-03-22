@@ -1,5 +1,5 @@
 <shapes name="mxgraph.electronic">
-    <shape name="pcb" h="45" w="15" aspect="variable" strokewidth="inherit">
+    <shape name="pcbr" h="45" w="15" aspect="variable" strokewidth="inherit">
         <connections>
             <constraint x="0.5" y="0" perimeter="0" name="N"/>
             <constraint x="0.5" y="1" perimeter="0" name="S"/>
@@ -14,7 +14,37 @@
             <fillstroke/>
         </foreground>
     </shape>
-    <shape name="btcb" h="15" w="45" aspect="variable" strokewidth="inherit">
+    <shape name="pcbg" h="45" w="15" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0.5" y="0" perimeter="0" name="N"/>
+            <constraint x="0.5" y="1" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#00ff00"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#00ff00" alpha="0.5"/>
+            <rect h="45" w="15" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="btcbr" h="15" w="45" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0" y="0.5" perimeter="0" name="N"/>
+            <constraint x="1" y="0.5" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#ff0000"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#ff0000"/>
+            <rect h="15" w="45" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="btcbg" h="15" w="45" aspect="variable" strokewidth="inherit">
         <connections>
             <constraint x="0" y="0.5" perimeter="0" name="N"/>
             <constraint x="1" y="0.5" perimeter="0" name="S"/>
@@ -29,7 +59,22 @@
             <fillstroke/>
         </foreground>
     </shape>
-    <shape name="lcb" h="15" w="45" aspect="variable" strokewidth="inherit">
+    <shape name="lcbr" h="15" w="45" aspect="variable" strokewidth="inherit">
+        <connections>
+            <constraint x="0" y="0.5" perimeter="0" name="N"/>
+            <constraint x="1" y="0.5" perimeter="0" name="S"/>
+        </connections>
+        <background>
+        </background>
+        <foreground>
+            <strokecolor color="#ff0000"/>
+            <strokewidth width="1"/>
+            <fillcolor color="#ff0000"/>
+            <rect h="15" w="45" x="0" y="0" />
+            <fillstroke/>
+        </foreground>
+    </shape>
+    <shape name="lcbg" h="15" w="45" aspect="variable" strokewidth="inherit">
         <connections>
             <constraint x="0" y="0.5" perimeter="0" name="N"/>
             <constraint x="1" y="0.5" perimeter="0" name="S"/>

@@ -992,7 +992,7 @@ Sidebar.prototype.addElectronicPalette = function(expanded, id, title, stencilFi
     node = doc.createElement('obj')
     node.setAttribute('label', '');
     node.setAttribute('type', 'eline');
-    fns.push(this.createEdgeTemplateEntry('rounded=0;endArrow=none;html=1;strokeColor=#00FF00;', 0, 25, node, mxResources.get('eline'), null, 'connection simple undirected plain blank no'));
+    fns.push(this.createEdgeTemplateEntry('rounded=0;endArrow=none;html=1;strokeColor=#00FF00;', 0, 50, node, mxResources.get('eline'), null, 'connection simple undirected plain blank no'));
 
     doc = mxUtils.createXmlDocument();
     node = doc.createElement('obj')
