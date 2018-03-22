@@ -316,9 +316,12 @@ zoomIn=Zoom In
 zoomOut=Zoom Out
 
 electronic=元器件
-pcb=电源断路器
-btcb=母联断路器
-lcb=环路断路器
+pcbr=常闭电源断路器
+pcbg=常开电源断路器
+btcbr=常闭母联断路器
+btcbg=常开母联断路器
+lcbr=常闭环路断路器
+lcbg=常开环路断路器
 nc=不控节点
 ncd=不空节点
 generatrix=母线
