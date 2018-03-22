@@ -5527,14 +5527,24 @@ PropertiesPanel.prototype.loadVar = function (devSn) {
 };
 
 PropertiesPanel.prototype.getVars = function (devSn) {
-
-    return (function($) {
+	var ret = (function($) {
         return $.ajax({
             url : BASE_URL + "/devices/"+devSn+"/vars",
             type : 'get',
             async: false,
         });
     })(jQuery);
+
+	var data = {"sn":[], name:[]};
+    if (ret.status == 200) {
+        var vars = ret.responseJSON;
+        for (var i = 0; i < vars.length; i++) {
+            data.sn[i] =   vars[i].sn;
+            data.name[i] = vars[i].name;
+        }
+    }
+
+    return data;
 };
 
 PropertiesPanel.prototype.init = function()
@@ -5789,10 +5799,13 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
 
 	var items = [];
 	var display = [];
-	if(sourceType == "http")
-	{
 
-	}
+    if(propertyName == "variable") {
+        let v = graph.getSelectionCell().getValue().getAttribute("device");
+        var ret = this.getVars(v);
+		items = ret.sn;
+		display = ret.name;
+    }
 	else {
 		items = options;
 		display = labels;
@@ -5845,26 +5858,21 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
 		// by wangyanna 文本框中选择device后，变量内容随之变化
 		if(graph.getSelectionCell().getValue().getAttribute("type")=="textarea" && propertyName == "device")
 		{
-			var ret = panel.getVars(select.value);
-			if(ret.status == 200)
-			{
-				var vars = ret.responseJSON;
-                var x = document.getElementById("variable").childNodes[1];
-                x.innerHTML='';
-				for(var i = 0; i<vars.length; i++)
-				{
-                    var varOption = document.createElement('option');
-                    varOption.setAttribute('value', vars[i].sn);
-                    mxUtils.write(varOption, vars[i].name);
-                    x.appendChild(varOption);
-				}
-				if(vars.length > 0)
-				{
-                    graph.getSelectionCell().getValue().setAttribute("variable", vars[0].sn);
-				}
+            var x = document.getElementById("variable").childNodes[1];
+            x.innerHTML='';
 
-
-			}
+            var ret = panel.getVars(select.value);
+            for(var i = 0; i<ret.sn.length; i++)
+            {
+                var varOption = document.createElement('option');
+                varOption.setAttribute('value', ret.sn[i]);
+                mxUtils.write(varOption, ret.name[i]);
+                x.appendChild(varOption);
+            }
+            if(ret.sn.length > 0)
+            {
+                graph.getSelectionCell().getValue().setAttribute("variable", ret.sn[0]);
+            }
 
 		}
 
@@ -5880,53 +5888,6 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
 		{
             select.value = value;
 		}
-
-		//变量的下拉列表需要根据device重新取值，然后再设置
-        if(propertyName == "variable") {
-            let v = graph.getSelectionCell().getValue().getAttribute("device");
-            var ret = panel.getVars(v);
-            if (ret.status == 200) {
-                var vars = ret.responseJSON;
-
-                select.innerHTML = '';
-                for (var i = 0; i < vars.length; i++) {
-                    var varOption = document.createElement('option');
-                    varOption.setAttribute('value', vars[i].sn);
-                    mxUtils.write(varOption, vars[i].name);
-                    select.appendChild(varOption);
-                }
-                select.value = value;
-            }
-        }
-
-		//by wangyanna
-        // if(propertyName == "cableModel")
-        // {
-         //    let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
-         //    if(v == "aerial")
-         //    {
-         //        select.parentElement.style.display = 'block';
-         //    }
-         //    if(v == "electric")
-         //    {
-         //        select.parentElement.style.display = 'none';
-         //    }
-        // }
-        //
-        // if(propertyName == "diameters" || propertyName == "materials")
-        // {
-         //    let v = graph.getSelectionCell().getValue().getAttribute("cableStyle");
-         //    if(v == "aerial")
-         //    {
-         //        select.parentElement.style.display = 'none';
-         //    }
-         //    if(v == "electric")
-         //    {
-         //        select.parentElement.style.display = 'block';
-         //    }
-        // }
-
-
     });
 
     graph.getModel().addListener(mxEvent.CHANGE, listener);
