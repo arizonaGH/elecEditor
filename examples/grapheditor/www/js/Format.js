@@ -5363,7 +5363,18 @@ PropertiesPanel.prototype.propertiesJson = {
     },
     "PT2":{"basic":[{"propertyName":"voltagestep","label":"voltagestep","type":"input"}],"runtime":[]},
     "PT3":{"basic":[{"propertyName":"voltagestep","label":"voltagestep","type":"input"}],"runtime":[]},
-    "pcb":{
+    "pcbr":{
+        "basic": [
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"IA","label":"IA","type":"input"},
+            {"propertyName":"IIA","label":"IIA","type":"input"},
+            {"propertyName":"IIIA","label":"IIIA","type":"input"},
+        ],
+        "runtime":[
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
+        ]
+    },
+    "pcbg":{
         "basic": [
             {"propertyName":"name","label":"name","type":"input"},
             {"propertyName":"IA","label":"IA","type":"input"},
@@ -5380,7 +5391,7 @@ PropertiesPanel.prototype.propertiesJson = {
             {"propertyName":"voltage","label":"voltage","type":"input"},
         ],"runtime":[]},
     "eline":{"basic":[],"runtime":[]},
-    "btcb":{
+    "btcbg":{
         "basic":[
             {"propertyName":"name","label":"name","type":"input"},
             {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
@@ -5390,7 +5401,27 @@ PropertiesPanel.prototype.propertiesJson = {
             {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
         ]
     },
-    "lcb":{
+    "btcbr":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
+            {"propertyName":"phasediff","label":"phasediff","type":"input"},
+        ],
+        "runtime": [
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
+        ]
+    },
+    "lcbr":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
+            {"propertyName":"phasediff","label":"phasediff","type":"input"},
+        ],
+        "runtime":[
+            {"propertyName":"device","label":"device","type":"select","sourceType":"local","options":[],"optionsLabel":[]}
+        ]
+    },
+    "lcbg":{
         "basic":[
             {"propertyName":"name","label":"name","type":"input"},
             {"propertyName":"voltagediff","label":"voltagediff","type":"input"},
@@ -5470,22 +5501,31 @@ PropertiesPanel.prototype.loadDevice = function () {
             type : 'get',
             async: false,//使用同步的方式,true为异步方式
             success : mxUtils.bind(panel, function(data){
-                var options =[];
-                var labels=[];
+                var options =[''];
+                var labels=[''];
                 for(var i = 0; i<data.length; i++)
                 {
                     options.push(data[i].sn);
                     labels.push(data[i].name);
                 }
 
-                panel.propertiesJson.pcb.runtime[0].options = options;
-                panel.propertiesJson.pcb.runtime[0].optionsLabel = labels;
+                panel.propertiesJson.pcbr.runtime[0].options = options;
+                panel.propertiesJson.pcbr.runtime[0].optionsLabel = labels;
 
-                panel.propertiesJson.btcb.runtime[0].options = options;
-                panel.propertiesJson.btcb.runtime[0].optionsLabel = labels;
+                panel.propertiesJson.pcbg.runtime[0].options = options;
+                panel.propertiesJson.pcbg.runtime[0].optionsLabel = labels;
 
-                panel.propertiesJson.lcb.runtime[0].options = options;
-                panel.propertiesJson.lcb.runtime[0].optionsLabel = labels;
+                panel.propertiesJson.btcbr.runtime[0].options = options;
+                panel.propertiesJson.btcbr.runtime[0].optionsLabel = labels;
+
+                panel.propertiesJson.btcbg.runtime[0].options = options;
+                panel.propertiesJson.btcbg.runtime[0].optionsLabel = labels;
+
+                panel.propertiesJson.lcbr.runtime[0].options = options;
+                panel.propertiesJson.lcbr.runtime[0].optionsLabel = labels;
+
+                panel.propertiesJson.lcbg.runtime[0].options = options;
+                panel.propertiesJson.lcbg.runtime[0].optionsLabel = labels;
 
                 panel.propertiesJson.textarea.basic[0].options = options;
                 panel.propertiesJson.textarea.basic[0].optionsLabel = labels;
@@ -5571,7 +5611,7 @@ PropertiesPanel.prototype.init = function()
 	{
 		this.loadCable();
 	}
-	if(elementType == "pcb" || elementType == "lcb" || elementType == "btcb" || elementType=="textarea")
+	if(elementType.indexOf("pcb")==0 || elementType.indexOf('lcb')==0 || elementType.indexOf('btcb')==0 || elementType=="textarea")
 	{
 		this.loadDevice();
 	}
