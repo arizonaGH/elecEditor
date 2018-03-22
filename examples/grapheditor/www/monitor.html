@@ -1,0 +1,133 @@
+<!--
+  Copyright (c) 2006-2013, JGraph Ltd
+  
+  Codec example for mxGraph. This example demonstrates dynamically
+  creating a graph from XML and encoding the model into XML, as well
+  as changing the default style for edges in-place.
+-->
+<html>
+<head>
+	<title>Codec example for mxGraph</title>
+	<script type="text/javascript" src="../../../src/js/jquery/jquery-3.3.1.js"></script>
+	<!-- Sets the basepath for the library if not in same directory -->
+	<script type="text/javascript">
+		mxBasePath = '../../../src';
+	</script>
+
+	<!-- Loads and initializes the library -->
+	<script type="text/javascript" src="../../../src/js/mxClient.js"></script>
+	<script type="text/javascript" src="js/Init.js"></script>
+	<!-- Example code -->
+	<script type="text/javascript">
+        var urlParams = (function(url)
+        {
+            var result = new Object();
+            var idx = url.lastIndexOf('?');
+
+            if (idx > 0)
+            {
+                var params = url.substring(idx + 1).split('&');
+
+                for (var i = 0; i < params.length; i++)
+                {
+                    idx = params[i].indexOf('=');
+
+                    if (idx > 0)
+                    {
+                        result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
+                    }
+                }
+            }
+
+            return result;
+        })(window.location.href);
+		// Program starts here. Creates a sample graph in the
+		// DOM node with the specified ID. This function is invoked
+		// from the onLoad event handler of the document (see below).
+
+		function loadFile(id){
+            var ret = (function($) {
+                return $.ajax({
+                    url : BASE_URL + OPEN_URL+"/"+id,
+                    type : 'get',
+                    async: false,
+                });
+            })(jQuery);
+
+            if (ret.status == 200) {
+                return ret.responseJSON;
+            }
+            else {
+                mxUtils.error('Get graph failed.', 200, false);
+                return null;
+			}
+
+		}
+
+		function main()
+		{
+            if (!mxClient.isBrowserSupported())
+            {
+                // Displays an error message if the browser is not supported.
+                mxUtils.error('Browser is not supported!', 200, false);
+                return;
+            }
+
+            if(!("id" in urlParams))
+            {
+                mxUtils.error('Please specify id of the graph', 200, false);
+                return;
+            }
+
+            var id = urlParams.id;
+
+            // Loads the stencils into the registry
+            var STENCIL_PATH = 'stencils';
+            var req = mxUtils.load(STENCIL_PATH + '/electronic.xml');
+            var root = req.getDocumentElement();
+            var shape = root.firstChild;
+
+            while (shape != null)
+            {
+                if (shape.nodeType == mxConstants.NODETYPE_ELEMENT)
+                {
+                    mxStencilRegistry.addStencil("mxgraph.electronic."+shape.getAttribute('name').toLocaleLowerCase(), new mxStencil(shape));
+                }
+
+                shape = shape.nextSibling;
+            }
+
+            var data = loadFile(id);
+            var container = document.getElementById("container");
+            document.title = data.name;
+
+            var xml  = data.content;
+            var xmlDocument = mxUtils.parseXml(xml);
+
+            if (xmlDocument.documentElement != null && xmlDocument.documentElement.nodeName == 'mxGraphModel')
+            {
+                var decoder = new mxCodec(xmlDocument);
+                var node = xmlDocument.documentElement;
+
+                container.innerHTML = '';
+
+                var graph = new mxGraph(container);
+
+                graph.centerZoom = false;
+                graph.setTooltips(false);
+                graph.setEnabled(true);
+
+                decoder.decode(node, graph.getModel());
+                graph.resizeContainer = true;
+
+            }
+		};
+	</script>
+</head>
+<body>
+    <div id="container" style="overflow:hidden;position:relative;background-color:black;cursor:default;"></div>
+	<script type="text/javascript">
+		main();
+	</script>
+</body>
+</html>
