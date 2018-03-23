@@ -84,8 +84,7 @@ Sidebar.prototype.init = function()
 {
 	var dir = STENCIL_PATH;
 
-	this.addElectronicPalette(true, 'electronic', mxResources.get('electronic'), dir + '/electronic.xml',
-        ';whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2');
+	this.addElectronicPalette(true, 'electronic', mxResources.get('electronic'), dir + '/electronic.xml', '');
 	// this.addSearchPalette(true);
 	// this.addGeneralPalette(true);
 	// this.addMiscPalette(false);
@@ -930,6 +929,17 @@ Sidebar.prototype.createObjectForCell = function(type){
 
     return obj;
 };
+
+Sidebar.prototype.styles = {
+	"pcbr":";fillColor=#ff0000;strokeColor=#ff0000",
+    "pcbg":";fillColor=#00ff00;strokeColor=#00ff00",
+    "btcbr":";fillColor=#ff0000;strokeColor=#ff0000",
+    "btcbg":";fillColor=#00ff00;strokeColor=#00ff00",
+    "lcbr":";fillColor=#ff0000;strokeColor=#ff0000",
+    "lcbg":";fillColor=#00ff00;strokeColor=#00ff00",
+    "nc":";fillColor=#ff0000;strokeColor=#ff0000",
+    "generatrix":";fillColor=#00ff00;strokeColor=#00ff00",
+}
 /**
  * 2018.3.5 by wangyanna
  * Add electronic palette to the sidebar
@@ -975,6 +985,12 @@ Sidebar.prototype.addElectronicPalette = function(expanded, id, title, stencilFi
             var node = doc.createElement('obj')
             node.setAttribute('label', '');
             node.setAttribute('type', name);
+
+            var type = stencilName.toLowerCase();
+            if(type in this.styles)
+			{
+				style = this.styles[type];
+			}
 
 			fns.push(this.createVertexTemplateEntry('shape=' + packageName + stencilName.toLowerCase() + style,
 				Math.round(w * scale), Math.round(h * scale), node, mxResources.get(name), null, null,

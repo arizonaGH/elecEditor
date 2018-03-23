@@ -7,9 +7,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#ff0000"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#ff0000" alpha="0.5"/>
             <rect h="45" w="15" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -22,9 +19,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#00ff00"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#00ff00" alpha="0.5"/>
             <rect h="45" w="15" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -37,9 +31,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#ff0000"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#ff0000"/>
             <rect h="15" w="45" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -52,9 +43,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#00ff00"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#00ff00"/>
             <rect h="15" w="45" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -67,9 +55,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#ff0000"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#ff0000"/>
             <rect h="15" w="45" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -82,9 +67,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#00ff00"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#00ff00"/>
             <rect h="15" w="45" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -97,9 +79,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#ff0000"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#ff0000"/>
             <ellipse h="20" w="20" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -110,9 +89,6 @@
         <background>
         </background>
         <foreground>
-            <strokecolor color="#00ff00"/>
-            <strokewidth width="1"/>
-            <fillcolor color="#00ff00"/>
             <rect h="3" w="150" x="0" y="0" />
             <fillstroke/>
         </foreground>
@@ -149,7 +125,7 @@
     <shape name="PT3" h="75" w="50" aspect="variable" strokewidth="inherit">
         <connections>
             <constraint x="0.5" y="0" perimeter="0" name="N"/>
-            <constraint x="0.3" y="1" perimeter="0" name="S"/>
+            <constraint x="0.29" y="1" perimeter="0" name="S"/>
             <constraint x="0.7" y="1" perimeter="0" name="SE"/>
         </connections>
         <background>
