@@ -50,13 +50,6 @@ mtGraph = function(container, model, renderHint, stylesheet)
                     var graphId = this.getId();
                     var cellIds = getCircuitCells(graphId, cell.id);
 
-                    //stub
-                    cellIds = ["83","84"];
-                    if(cell.id == "82")
-                    {
-                        cellIds = ["85","82"];
-                    }
-
                     for(var i = 0; i<cellIds.length; i++)
                     {
                         var cur = this.getModel().getCell(cellIds[i]);
@@ -73,6 +66,30 @@ mtGraph = function(container, model, renderHint, stylesheet)
             else{
                 //其他元件单击事件
                 console.log("click");
+
+                //更新文本框
+                // var model = this.getModel();
+                // model.beginUpdate();
+                // try
+                // {
+                //     var x = model.getCell("19");
+                //     //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, 'white', [x]);
+                //     x.getValue().setAttribute("label","test");
+                //
+                //     var state = this.view.getState(x);
+                //
+                //     if (state != null)
+                //     {
+                //         this.cellRenderer.redraw(state);
+                //     }
+                //
+                // }
+                // finally
+                // {
+                //     model.endUpdate();
+                // }
+
+
             }
             evt.consume();
         }

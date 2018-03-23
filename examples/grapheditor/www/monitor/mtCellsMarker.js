@@ -38,7 +38,6 @@ mtCellsMarker.prototype.setCurrentState = function(state, me, color)
                 var id = state.cell.id;
                 var graphId = this.graph.getId();
                 var cellIds = getCircuitCells(graphId, id);
-                cellIds = ["83","84","54"];
 
                 for(var i = 0; i<cellIds.length; i++)
                 {
