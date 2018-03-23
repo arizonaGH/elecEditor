@@ -120,85 +120,92 @@
                 graph.setTooltips(false);
                 graph.setEnabled(false);
 
-
-
-                // graph.addListener(mxEvent.GESTURE, function(sender, eo)
-                // {
-                //     var evt = eo.getProperty('event');
-                //     var state = graph.view.getState(eo.getProperty('cell'));
-                //
-                //     if (graph.isEnabled() && graph.isCellResizable(state.cell) && Math.abs(1 - evt.scale) > 0.2)
-                //     {
-                //         var scale = graph.view.scale;
-                //         var tr = graph.view.translate;
-                //
-                //         var w = state.width * evt.scale;
-                //         var h = state.height * evt.scale;
-                //         var x = state.x - (w - state.width) / 2;
-                //         var y = state.y - (h - state.height) / 2;
-                //
-                //         var bounds = new mxRectangle(graph.snap(x / scale) - tr.x,
-                //             graph.snap(y / scale) - tr.y, graph.snap(w / scale), graph.snap(h / scale));
-                //         graph.resizeCell(state.cell, bounds);
-                //         eo.consume();
-                //     }
-                // });
-
                 decoder.decode(node, graph.getModel());
-                graph.resizeContainer = true;
+                graph.resizeContainer = false;
 
+                // Adds zoom buttons in top, left corner
+                var buttons = document.createElement('div');
+                buttons.style.position = 'absolute';
+                buttons.style.overflow = 'visible';
+                buttons.style.height = '23px';
+                buttons.style.width = '44px';
+                buttons.style.backgroundColor = 'lightgray';
+
+                var bs = graph.getBorderSizes();
+                buttons.style.top = (container.offsetTop + bs.y) + 'px';
+                buttons.style.left = (container.offsetLeft + bs.x) + 'px';
+
+                var left = 0;
+                var bw = 21;
+                var bh = 21;
+
+                if (mxClient.IS_QUIRKS)
+                {
+                    bw -= 1;
+                    bh -= 1;
+                }
+
+                function addButton(label, funct)
+                {
+                    var btn = document.createElement('div');
+                    //mxUtils.write(btn, label);
+                    btn.style.position = 'absolute';
+                    btn.style.backgroundColor = 'gray';
+                    btn.style.border = '1px solid gray';
+                    btn.style.textAlign = 'center';
+                    btn.style.fontSize = '10px';
+                    btn.style.cursor = 'hand';
+                    btn.style.width = bw + 'px';
+                    btn.style.height = bh + 'px';
+                    btn.style.left = left + 'px';
+                    btn.style.top = '0px';
+                    btn.style.background = 'url(styles/sprites.png) no-repeat top left';
+                    btn.style.opacity = '0.6';
+                    if(label == '+')
+					{
+                        btn.style.backgroundPosition = '0 -966px';
+					}
+                    if(label == '-')
+                    {
+                        btn.style.backgroundPosition = '0 -1012px';
+                    }
+
+                    mxEvent.addListener(btn, 'click', function(evt)
+                    {
+                        funct();
+                        mxEvent.consume(evt);
+                    });
+
+                    left += bw;
+
+                    buttons.appendChild(btn);
+                };
+
+                addButton('+', function()
+                {
+                    graph.zoomIn();
+                });
+
+                addButton('-', function()
+                {
+                    graph.zoomOut();
+                });
+
+                if (container.nextSibling != null)
+                {
+                    container.parentNode.insertBefore(buttons, container.nextSibling);
+                }
+                else
+                {
+                    container.appendChild(buttons);
+                }
             }
 
-            /////
-            // Adds required resources (disables loading of fallback properties, this can only
-            // be used if we know that all keys are defined in the language specific file)
-            // mxResources.loadDefaultBundle = false;
-            // var bundle ="resources/grapheditor.txt";
-            //
-            // mxUtils.getAll([bundle, STYLE_PATH + '/default.xml'], function(xhr)
-            // {
-            //     // Adds bundle text to resources
-            //     mxResources.parse(xhr[0].getText());
-            //
-            //     // Configures the default graph theme
-            //     var themes = new Object();
-            //     themes[Graph.prototype.defaultThemeName] = xhr[1].getDocumentElement();
-            //
-            //     var data = loadFile(id);
-            //     var container = document.getElementById("container");
-            //     document.title = data.name;
-            //
-            //     var xml  = data.content;
-            //     var xmlDocument = mxUtils.parseXml(xml);
-            //
-            //     if (xmlDocument.documentElement != null && xmlDocument.documentElement.nodeName == 'mxGraphModel')
-            //     {
-            //         var decoder = new mxCodec(xmlDocument);
-            //         var node = xmlDocument.documentElement;
-            //
-            //         container.innerHTML = '';
-            //
-            //         var graph = new Graph(container);
-            //
-            //         graph.centerZoom = false;
-            //         graph.setTooltips(false);
-            //         graph.setEnabled(false);
-            //
-            //         decoder.decode(node, graph.getModel());
-            //         graph.resizeContainer = true;
-            //
-            //     }
-            //
-            //
-            // }, function()
-            // {
-            //     document.body.innerHTML = '<center style="margin-top:10%;">Error loading resource files. Please check browser console.</center>';
-            // });
 		};
 	</script>
 </head>
 <body>
-    <div id="container" style="overflow:hidden;position:relative;background-color:black;cursor:default;"></div>
+    <div id="container" style="overflow:auto;position:relative;background-color:black;cursor:default;width:600px;height: 600px;"></div>
 	<script type="text/javascript">
 		main();
 	</script>
