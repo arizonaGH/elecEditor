@@ -18,7 +18,9 @@
 	<script type="text/javascript" src="../../../src/js/mxClient.js"></script>
 	<script type="text/javascript" src="sanitizer/sanitizer.min.js"></script>
 	<script type="text/javascript" src="js/Init.js"></script>
+	<script type="text/javascript" src="monitor/data.js"></script>
 	<script type="text/javascript" src="monitor/mtGraph.js"></script>
+	<script type="text/javascript" src="monitor/mtCellsMarker.js"></script>
 
 	<!-- Example code -->
 	<script type="text/javascript">
@@ -116,6 +118,7 @@
 
                 var graph = new mtGraph(container);
 
+                graph.setId(id);
                 graph.centerZoom = false;
                 graph.setTooltips(false);
                 graph.setEnabled(false);

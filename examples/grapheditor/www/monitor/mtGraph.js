@@ -3,6 +3,20 @@ mtGraph = function(container, model, renderHint, stylesheet)
 {
     mxGraph.call(this, container, model, renderHint, stylesheet);
 
+    //hover highlight
+    var marker = new mtCellsMarker(this,'#ffff00');
+    this.addMouseListener({
+        mouseDown:function() {
+
+        },
+        mouseMove: function(sender, me)
+        {
+            marker.process(me);
+        },
+        mouseUp: function() {}
+    });
+
+
     this.addListener(mxEvent.CLICK, function(sender, evt)
     {
         var e = evt.getProperty('event'); // mouse event
@@ -10,8 +24,56 @@ mtGraph = function(container, model, renderHint, stylesheet)
 
         if (cell != null)
         {
-            // Do something useful with cell and consume the event
-            console.log("click");
+            var type = cell.value.getAttribute("type");
+            if(type != null && type.indexOf("lcb") != -1)
+            {
+                //环路断路器单击事件
+                if(this.markerCellId != null)
+                {
+                    //消除高亮
+                    for(var i = 0; i<this.markers.length; i++)
+                    {
+                        this.markers[i].unmark();
+                        this.markers[i].destroy();
+                    }
+                    this.markers = [];
+
+                    if(this.markerCellId == cell.id)  //点击同一元件，取消高亮
+                    {
+                        this.markerCellId = null;
+                        return;
+                    }
+                }
+                if(this.markerCellId == null || this.markerCellId != cell.id)
+                {
+                    //TODO: 获取环路数据
+                    var graphId = this.getId();
+                    var cellIds = getCircuitCells(graphId, cell.id);
+
+                    //stub
+                    cellIds = ["83","84"];
+                    if(cell.id == "82")
+                    {
+                        cellIds = ["85","82"];
+                    }
+
+                    for(var i = 0; i<cellIds.length; i++)
+                    {
+                        var cur = this.getModel().getCell(cellIds[i]);
+                        if(cur != null)
+                        {
+                            var marker = new mxCellMarker(this,'#ffff00');
+                            marker.markCell(cur);
+                            this.markers.push(marker);
+                        }
+                    }
+                    this.markerCellId = cell.id;
+                }
+            }
+            else{
+                //其他元件单击事件
+                console.log("click");
+            }
             evt.consume();
         }
     });
@@ -46,6 +108,20 @@ mtGraph = function(container, model, renderHint, stylesheet)
 };
 
 mxUtils.extend(mtGraph, mxGraph);
+
+//for highlight
+mtGraph.prototype.markers = [];
+mtGraph.prototype.markerCellId = null;
+mtGraph.prototype.id  = null;
+
+mtGraph.prototype.setId = function(id)
+{
+    this.id = id;
+}
+mtGraph.prototype.getId = function()
+{
+    return this.id;
+}
 
 mtGraph.prototype.getLabel = function(cell)
 {
@@ -170,4 +246,12 @@ mtGraph.prototype.sanitizeHtml = function(value, editing)
     function idX(id) { return id };
 
     return html_sanitize(value, urlX, idX);
+};
+
+mtGraph.prototype.getCursorForCell = function(cell)
+{
+    if (cell != null )
+    {
+        return 'pointer';
+    }
 };
