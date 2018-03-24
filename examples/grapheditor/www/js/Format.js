@@ -5036,7 +5036,7 @@ DiagramFormatPanel.prototype.addOptions = function(div)
 			return graph.connectionHandler.isEnabled();
 		}, function(checked)
 		{
-			ui.actions.get('connectcionPoints').funct();
+			ui.actions.get('connectionPoints').funct();
 		},
 		{
 			install: function(apply)
