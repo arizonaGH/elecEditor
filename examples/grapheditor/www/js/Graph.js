@@ -982,7 +982,7 @@ Graph.prototype.edgeMode = false;
 /**
  * Allows all values in fit.
  */
-Graph.prototype.connectionArrowsEnabled = false;   //by wangyanna 2018.3.12, disable connection arrows
+Graph.prototype.connectionArrowsEnabled = true;
 
 /**
  * Specifies the regular expression for matching placeholders.
@@ -1836,9 +1836,15 @@ Graph.prototype.connectVertex = function(source, direction, length, evt, forceCl
 		{
 			layout = this.layoutManager.getLayout(this.model.getParent(source));
 		}
-		
+
+		//wangyanna
+        var doc = mxUtils.createXmlDocument();
+        var node = doc.createElement('MyNode')
+        node.setAttribute('label', '');
+        node.setAttribute('type', 'cable');
+
 		var edge = ((mxEvent.isControlDown(evt) && duplicate) || (target == null && layout != null && layout.constructor == mxStackLayout)) ? null :
-			this.insertEdge(this.model.getParent(source), null, '', source, realTarget, this.createCurrentEdgeStyle());
+			this.insertEdge(this.model.getParent(source), null, node, source, realTarget, /*this.createCurrentEdgeStyle()*/";rounded=0;endArrow=none;html=1;strokeColor=#00FF00");
 
 		// Inserts edge before source
 		if (edge != null && this.connectionHandler.insertBeforeSource)
@@ -4175,7 +4181,14 @@ if (typeof mxVertexHandler != 'undefined')
 		mxConnectionHandler.prototype.createEdgeState = function(me)
 		{
 			var style = this.graph.createCurrentEdgeStyle();
-			var edge = this.graph.createEdge(null, null, null, null, null, style);
+
+			//wangyanna
+            var doc = mxUtils.createXmlDocument();
+            var node = doc.createElement('MyNode')
+            node.setAttribute('label', '');
+            node.setAttribute('type', 'cable');
+
+			var edge = this.graph.createEdge(null, null, node, null, null, ";rounded=0;endArrow=none;html=1;strokeColor=#00FF00");
 			var state = new mxCellState(this.graph.view, edge, this.graph.getCellStyle(edge));
 			
 			for (var key in this.graph.currentEdgeStyle)

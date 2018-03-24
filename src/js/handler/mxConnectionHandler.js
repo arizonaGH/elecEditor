@@ -949,53 +949,53 @@ mxConnectionHandler.prototype.mouseDown = function(sender, me)
     /**
 	 * comment out by wangyanna, 2018.3.12
      */
-	// this.mouseDownCounter++;
-	//
-	// if (this.isEnabled() && this.graph.isEnabled() && !me.isConsumed() &&
-	// 	!this.isConnecting() && this.isStartEvent(me))
-	// {
-	// 	if (this.constraintHandler.currentConstraint != null &&
-	// 		this.constraintHandler.currentFocus != null &&
-	// 		this.constraintHandler.currentPoint != null)
-	// 	{
-	// 		this.sourceConstraint = this.constraintHandler.currentConstraint;
-	// 		this.previous = this.constraintHandler.currentFocus;
-	// 		this.first = this.constraintHandler.currentPoint.clone();
-	// 	}
-	// 	else
-	// 	{
-	// 		// Stores the location of the initial mousedown
-	// 		this.first = new mxPoint(me.getGraphX(), me.getGraphY());
-	// 	}
-	//
-	// 	this.edgeState = this.createEdgeState(me);
-	// 	this.mouseDownCounter = 1;
-	//
-	// 	if (this.waypointsEnabled && this.shape == null)
-	// 	{
-	// 		this.waypoints = null;
-	// 		this.shape = this.createShape();
-	//
-	// 		if (this.edgeState != null)
-	// 		{
-	// 			this.shape.apply(this.edgeState);
-	// 		}
-	// 	}
-    //
-	// 	// Stores the starting point in the geometry of the preview
-	// 	if (this.previous == null && this.edgeState != null)
-	// 	{
-	// 		var pt = this.graph.getPointForEvent(me.getEvent());
-	// 		this.edgeState.cell.geometry.setTerminalPoint(pt, true);
-	// 	}
-	//
-	// 	this.fireEvent(new mxEventObject(mxEvent.START, 'state', this.previous));
-    //
-	// 	me.consume();
-	// }
-    //
-	// this.selectedIcon = this.icon;
-	// this.icon = null;
+	this.mouseDownCounter++;
+
+	if (this.isEnabled() && this.graph.isEnabled() && !me.isConsumed() &&
+		!this.isConnecting() && this.isStartEvent(me))
+	{
+		if (this.constraintHandler.currentConstraint != null &&
+			this.constraintHandler.currentFocus != null &&
+			this.constraintHandler.currentPoint != null)
+		{
+			this.sourceConstraint = this.constraintHandler.currentConstraint;
+			this.previous = this.constraintHandler.currentFocus;
+			this.first = this.constraintHandler.currentPoint.clone();
+		}
+		else
+		{
+			// Stores the location of the initial mousedown
+			this.first = new mxPoint(me.getGraphX(), me.getGraphY());
+		}
+
+		this.edgeState = this.createEdgeState(me);
+		this.mouseDownCounter = 1;
+
+		if (this.waypointsEnabled && this.shape == null)
+		{
+			this.waypoints = null;
+			this.shape = this.createShape();
+
+			if (this.edgeState != null)
+			{
+				this.shape.apply(this.edgeState);
+			}
+		}
+
+		// Stores the starting point in the geometry of the preview
+		if (this.previous == null && this.edgeState != null)
+		{
+			var pt = this.graph.getPointForEvent(me.getEvent());
+			this.edgeState.cell.geometry.setTerminalPoint(pt, true);
+		}
+
+		this.fireEvent(new mxEventObject(mxEvent.START, 'state', this.previous));
+
+		me.consume();
+	}
+
+	this.selectedIcon = this.icon;
+	this.icon = null;
 };
 
 /**
@@ -1683,64 +1683,61 @@ mxConnectionHandler.prototype.addWaypointForEvent = function(me)
  */
 mxConnectionHandler.prototype.mouseUp = function(sender, me)
 {
-    /**
-	 * comment out by wangyanna, 2018.3.12
-     */
-	// if (!me.isConsumed() && this.isConnecting())
-	// {
-	// 	if (this.waypointsEnabled && !this.isStopEvent(me))
-	// 	{
-	// 		this.addWaypointForEvent(me);
-	// 		me.consume();
-	//
-	// 		return;
-	// 	}
-	//
-	// 	// Inserts the edge if no validation error exists
-	// 	if (this.error == null)
-	// 	{
-	// 		var source = (this.previous != null) ? this.previous.cell : null;
-	// 		var target = null;
-	//
-	// 		if (this.constraintHandler.currentConstraint != null &&
-	// 			this.constraintHandler.currentFocus != null)
-	// 		{
-	// 			target = this.constraintHandler.currentFocus.cell;
-	// 		}
-	//
-	// 		if (target == null && this.currentState != null)
-	// 		{
-	// 			target = this.currentState.cell;
-	// 		}
-	//
-	// 		this.connect(source, target, me.getEvent(), me.getCell());
-	// 	}
-	// 	else
-	// 	{
-	// 		// Selects the source terminal for self-references
-	// 		if (this.previous != null && this.marker.validState != null &&
-	// 			this.previous.cell == this.marker.validState.cell)
-	// 		{
-	// 			this.graph.selectCellForEvent(this.marker.source, evt);
-	// 		}
-	//
-	// 		// Displays the error message if it is not an empty string,
-	// 		// for empty error messages, the event is silently dropped
-	// 		if (this.error.length > 0)
-	// 		{
-	// 			this.graph.validationAlert(this.error);
-	// 		}
-	// 	}
-	//
-	// 	// Redraws the connect icons and resets the handler state
-	// 	this.destroyIcons();
-	// 	me.consume();
-	// }
-    //
-	// if (this.first != null)
-	// {
-	// 	this.reset();
-	// }
+	if (!me.isConsumed() && this.isConnecting())
+	{
+		if (this.waypointsEnabled && !this.isStopEvent(me))
+		{
+			this.addWaypointForEvent(me);
+			me.consume();
+
+			return;
+		}
+
+		// Inserts the edge if no validation error exists
+		if (this.error == null)
+		{
+			var source = (this.previous != null) ? this.previous.cell : null;
+			var target = null;
+
+			if (this.constraintHandler.currentConstraint != null &&
+				this.constraintHandler.currentFocus != null)
+			{
+				target = this.constraintHandler.currentFocus.cell;
+			}
+
+			if (target == null && this.currentState != null)
+			{
+				target = this.currentState.cell;
+			}
+
+			this.connect(source, target, me.getEvent(), me.getCell());
+		}
+		else
+		{
+			// Selects the source terminal for self-references
+			if (this.previous != null && this.marker.validState != null &&
+				this.previous.cell == this.marker.validState.cell)
+			{
+				this.graph.selectCellForEvent(this.marker.source, evt);
+			}
+
+			// Displays the error message if it is not an empty string,
+			// for empty error messages, the event is silently dropped
+			if (this.error.length > 0)
+			{
+				this.graph.validationAlert(this.error);
+			}
+		}
+
+		// Redraws the connect icons and resets the handler state
+		this.destroyIcons();
+		me.consume();
+	}
+
+	if (this.first != null)
+	{
+		this.reset();
+	}
 };
 
 /**
