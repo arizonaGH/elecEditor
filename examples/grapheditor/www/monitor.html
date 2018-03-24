@@ -50,25 +50,6 @@
 		// DOM node with the specified ID. This function is invoked
 		// from the onLoad event handler of the document (see below).
 
-		function loadFile(id){
-            var ret = (function($) {
-                return $.ajax({
-                    url : BASE_URL + OPEN_URL+"/"+id,
-                    type : 'get',
-                    async: false,
-                });
-            })(jQuery);
-
-            if (ret.status == 200) {
-                return ret.responseJSON;
-            }
-            else {
-                mxUtils.error('Get graph failed.', 200, false);
-                return null;
-			}
-
-		}
-
 		function main()
 		{
             if (!mxClient.isBrowserSupported())
@@ -202,6 +183,58 @@
                 {
                     container.appendChild(buttons);
                 }
+
+                //monitor
+                setInterval(mxUtils.bind(graph, function(){
+                    var id = graph.getId();
+                    var data = getRealtimeData(id);
+                    if(data == null)
+					{
+					    return;
+					}
+
+					data.push({"cell_id":"29","type":"Analog","data":"2324"});
+
+                    //更新文本框
+                    var model = graph.getModel();
+                    model.beginUpdate();
+                    try
+                    {
+                        for(var i= 0; i<data.length; i++)
+						{
+						    if(data[i].type == "Digital")  //开关状态
+							{
+                                var cell = model.getCell(data[i].cell_id);
+                                if(data[i].data == 0)
+								{
+                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#ff0000', [cell]);
+								}
+                                if(data[i].data == 1)
+                                {
+                                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#00ff00', [cell]);
+                                }
+
+							}
+                            if(data[i].type == "Analog")   //文本框
+                            {
+                                var cell = model.getCell(data[i].cell_id);
+                                //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, 'white', [x]);
+                                cell.getValue().setAttribute("label",data[i].data);
+                                var state = this.view.getState(cell);
+                                if (state != null)
+                                {
+                                    graph.cellRenderer.redraw(state);
+                                }
+                            }
+						}
+
+                    }
+                    finally
+                    {
+                        model.endUpdate();
+                    }
+
+				}), 2000);
             }
 
 		};

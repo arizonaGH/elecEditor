@@ -66,30 +66,6 @@ mtGraph = function(container, model, renderHint, stylesheet)
             else{
                 //其他元件单击事件
                 console.log("click");
-
-                //更新文本框
-                // var model = this.getModel();
-                // model.beginUpdate();
-                // try
-                // {
-                //     var x = model.getCell("19");
-                //     //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, 'white', [x]);
-                //     x.getValue().setAttribute("label","test");
-                //
-                //     var state = this.view.getState(x);
-                //
-                //     if (state != null)
-                //     {
-                //         this.cellRenderer.redraw(state);
-                //     }
-                //
-                // }
-                // finally
-                // {
-                //     model.endUpdate();
-                // }
-
-
             }
             evt.consume();
         }
