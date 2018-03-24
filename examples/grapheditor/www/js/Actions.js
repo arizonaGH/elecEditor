@@ -63,6 +63,9 @@ Actions.prototype.init = function()
 			window.openFile = null;
 		});
 	}).isEnabled = isGraphEnabled;
+	//wangyanna
+    this.addAction('check', function() { ui.checkFile(); }, null, null,  Editor.ctrlKey + '+Shift+C');
+    this.addAction('clear', function() { ui.clearCheck(); }, null, null,  Editor.ctrlKey + '+Shift+R');
 	this.addAction('save', function() { ui.saveFile(false); }, null, null, Editor.ctrlKey + '+S').isEnabled = isGraphEnabled;
 	this.addAction('saveAs...', function() { ui.saveFile(true); }, null, null, Editor.ctrlKey + '+Shift+S').isEnabled = isGraphEnabled;
 	this.addAction('export...', function() { ui.showDialog(new ExportDialog(ui).container, 300, 230, true, true); });

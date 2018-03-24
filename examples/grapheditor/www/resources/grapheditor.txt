@@ -357,4 +357,7 @@ phasediff=允许相位差值
 label=文本
 variable=变量
 
+check=校验
+clear=清除
+
 

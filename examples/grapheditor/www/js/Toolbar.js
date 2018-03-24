@@ -61,6 +61,11 @@ Toolbar.prototype.init = function()
     elts[0].setAttribute('title', mxResources.get('save') + ' (' + this.editorUi.actions.get('save').shortcut + ')');
     this.addSeparator();
 
+    //check
+    var elts = this.addItems(['check', 'clear']);
+    elts[0].setAttribute('title', mxResources.get('check'));
+    elts[1].setAttribute('title', mxResources.get('clear'));
+    this.addSeparator();
 
 	// Takes into account initial compact mode
 	sw -= (screen.height > 740) ? 56 : 0;

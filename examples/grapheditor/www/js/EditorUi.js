@@ -3412,11 +3412,45 @@ EditorUi.prototype.isCompatibleString = function(data)
 	return false;
 };
 
+//wangyanna 校验图形
+EditorUi.prototype.markers = [];
+EditorUi.prototype.checkFile = function(){
+    var cells = this.editor.graph.getModel().cells;
+    var valid = true;
+    for(var i in cells)
+	{
+		var cell = cells[i];
+		if(cell.edge)
+		{
+			if(cell.source == null || cell.target == null)
+			{
+                var marker = new mxCellMarker(this.editor.graph,'#0000ff');
+                marker.markCell(cell);
+                this.markers.push(marker);
+                valid = false;
+			}
+		}
+	}
+	return valid;
+}
+
+EditorUi.prototype.clearCheck = function () {
+	for(var i = 0; i<this.markers.length; i++)
+	{
+        this.markers[i].unmark();
+        this.markers[i].destroy();
+	}
+    this.markers = [];
+}
 /**
  * Adds the label menu items to the given menu and parent.
  */
 EditorUi.prototype.saveFile = function(forceDialog)
 {
+	if(!this.checkFile())
+	{
+		return;
+	}
 	// if (!forceDialog && this.editor.filename != null)
 	// {
 	// 	this.save(this.editor.getOrCreateFilename());
