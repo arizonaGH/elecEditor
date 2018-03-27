@@ -1982,6 +1982,9 @@ Sidebar.prototype.createThumb = function(cells, width, height, parent, title, sh
  */
 Sidebar.prototype.createItem = function(cells, title, showLabel, showTitle, width, height, allowCellsInserted)
 {
+	var container = document.createElement("div");
+    container.style.float = 'left';
+
 	var elt = document.createElement('a');
 	elt.setAttribute('href', 'javascript:void(0);');
 	elt.className = 'geItem';
@@ -1990,6 +1993,7 @@ Sidebar.prototype.createItem = function(cells, title, showLabel, showTitle, widt
 	elt.style.width = (this.thumbWidth + border) + 'px';
 	elt.style.height = (this.thumbHeight + border) + 'px';
 	elt.style.padding = this.thumbPadding + 'px';
+	elt.style.display = 'block';
 	
 	if (mxClient.IS_IE6)
 	{
@@ -2035,8 +2039,24 @@ Sidebar.prototype.createItem = function(cells, title, showLabel, showTitle, widt
 			}
 		}));
 	}
-	
-	return elt;
+
+	container.appendChild(elt);
+
+    var label = document.createElement('a');
+    label.setAttribute('href', 'javascript:void(0);');
+    label.className = 'geItem';
+    label.style.overflow = 'hidden';
+    var border = (mxClient.IS_QUIRKS) ? 8 + 2 * this.thumbPadding : 2 * this.thumbBorder;
+    label.style.width = (this.thumbWidth + border) + 'px';
+    label.style.height = (this.thumbHeight + border + 15) + 'px';
+    label.style.padding = this.thumbPadding + 'px';
+    label.style.color = 'white';
+    label.style.textAlign ='center';
+    label.text=title;
+    label.style.fontSize = "12px";
+
+    container.appendChild(label);
+	return container;
 };
 
 /**
