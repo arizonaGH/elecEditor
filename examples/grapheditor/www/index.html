@@ -130,6 +130,14 @@
                             ui.editor.setModified(false);
                             ui.editor.undoManager.clear();
 
+                            var width = ui.editor.graph.getModel().dx;
+                            var height = ui.editor.graph.getModel().dy;
+                            var ratioW =  600/ width;
+                            var ratioH = 600/height;
+
+                            ui.editor.graph.zoom((ratioW < ratioH) ? ratioW : ratioH);
+                            ui.editor.graph.center();
+
                             ui.editor.setFileid(id);
                             if (filename != null)
                             {
