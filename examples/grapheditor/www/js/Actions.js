@@ -226,6 +226,17 @@ Actions.prototype.init = function()
 	// Arrange actions
 	this.addAction('toFront', function() { graph.orderCells(false); }, null, null, Editor.ctrlKey + '+Shift+F');
 	this.addAction('toBack', function() { graph.orderCells(true); }, null, null, Editor.ctrlKey + '+Shift+B');
+    this.addAction('groupWithBorder', function()
+    {
+        if (graph.getSelectionCount() == 1)
+        {
+            graph.setCellStyles('container', '1');
+        }
+        else
+        {
+            graph.setSelectionCell(graph.groupCellsWithBorder(null, 0));
+        }
+    }, null, null, Editor.ctrlKey + '+Shift + G');
 	this.addAction('group', function()
 	{
 		if (graph.getSelectionCount() == 1)

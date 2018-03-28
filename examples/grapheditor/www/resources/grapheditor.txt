@@ -360,4 +360,8 @@ variable=变量
 check=校验
 clear=清除
 
+st2=两绕组变电站
+Vo=外圈电压
+Vi=内圈电压
+groupWithBorder=添加开关站
 

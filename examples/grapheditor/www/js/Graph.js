@@ -2563,6 +2563,101 @@ Graph.prototype.zapGremlins = function(text)
 	return checked.join('');
 };
 
+//wangyanna
+Graph.prototype.groupCellsWithBorder = function(group, border, cells)
+{
+    if (cells == null)
+    {
+        cells = mxUtils.sortCells(this.getSelectionCells(), true);
+    }
+
+    cells = this.getCellsForGroup(cells);
+
+    if (group == null)
+    {
+        group = this.createGroupCellWithBorder(cells);
+    }
+
+    var bounds = this.getOuterBoundsForGroup(group, cells, border);
+
+    if (cells.length > 0 && bounds != null)
+    {
+        // Uses parent of group or previous parent of first child
+        var parent = this.model.getParent(group);
+
+        if (parent == null)
+        {
+            parent = this.model.getParent(cells[0]);
+        }
+
+        this.model.beginUpdate();
+        try
+        {
+            // Checks if the group has a geometry and
+            // creates one if one does not exist
+            if (this.getCellGeometry(group) == null)
+            {
+                this.model.setGeometry(group, new mxGeometry());
+            }
+
+            // Adds the group into the parent
+            var index = this.model.getChildCount(parent);
+            this.cellsAdded([group], parent, index, null, null, false, false, false);
+
+            // Adds the children into the group and moves
+            index = this.model.getChildCount(group);
+            this.cellsAdded(cells, group, index, null, null, false, false, false);
+            this.cellsMoved(cells, -bounds.x, -bounds.y, false, false, false);
+
+            // Resizes the group
+            this.cellsResized([group], [bounds], false);
+
+            this.fireEvent(new mxEventObject(mxEvent.GROUP_CELLS,
+                'group', group, 'border', border, 'cells', cells));
+        }
+        finally
+        {
+            this.model.endUpdate();
+        }
+    }
+
+    return group;
+};
+
+Graph.prototype.getOuterBoundsForGroup = function(group, children, border)
+{
+    var result = this.getBoundingBoxFromGeometry(children, true);
+
+    result.x -= 20;
+    result.y -= 20;
+    result.width += 40;
+    result.height += 40;
+
+    if (result != null)
+    {
+        if (this.isSwimlane(group))
+        {
+            var size = this.getStartSize(group);
+
+            result.x -= size.width;
+            result.y -= size.height;
+            result.width += size.width;
+            result.height += size.height;
+        }
+
+        // Adds the border
+        if (border != null)
+        {
+            result.x -= border;
+            result.y -= border;
+            result.width += 2 * border;
+            result.height += 2 * border;
+        }
+    }
+
+    return result;
+};
+
 /**
  * Hover icons are used for hover, vertex handler and drag from sidebar.
  */
@@ -4517,6 +4612,20 @@ if (typeof mxVertexHandler != 'undefined')
 			
 			return group;
 		};
+
+		//wangyanna
+        Graph.prototype.createGroupCellWithBorder = function()
+        {
+            var group = mxGraph.prototype.createGroupCell.apply(this, arguments);
+            group.setStyle(';rounded=0;whiteSpace=wrap;html=1;fontColor=#FFFFFF;strokeColor=#00FF00;fillColor=none;dashed=1;labelPosition=left;align=right;');
+
+            var doc = mxUtils.createXmlDocument();
+            var node = doc.createElement('MyNode')
+            node.setAttribute('label', '');
+            node.setAttribute('type', 'group');
+			group.setValue(node);
+            return group;
+        };
 		
 		/**
 		 * Disables extending parents with stack layouts on add

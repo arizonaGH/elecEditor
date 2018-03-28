@@ -56,6 +56,11 @@ Toolbar.prototype.init = function()
 {
 	var sw = screen.width;
 
+    //wangyanna, add save button
+    var elts = this.addItems(['groupWithBorder']);
+    elts[0].setAttribute('title', mxResources.get('groupWithBorder') + ' (' + this.editorUi.actions.get('groupWithBorder').shortcut + ')');
+    this.addSeparator();
+
 	//wangyanna, add save button
     var elts = this.addItems(['save']);
     elts[0].setAttribute('title', mxResources.get('save') + ' (' + this.editorUi.actions.get('save').shortcut + ')');
