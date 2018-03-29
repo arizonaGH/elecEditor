@@ -3447,10 +3447,8 @@ EditorUi.prototype.clearCheck = function () {
  */
 EditorUi.prototype.saveFile = function(forceDialog)
 {
-	if(!this.checkFile())
-	{
-		return;
-	}
+    this.checkFile();
+    
 	// if (!forceDialog && this.editor.filename != null)
 	// {
 	// 	this.save(this.editor.getOrCreateFilename());
