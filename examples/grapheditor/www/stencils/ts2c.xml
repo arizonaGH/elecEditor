@@ -1,0 +1,64 @@
+<mxGraphModel>
+    <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <obj label="" type="ts2c" id="58">
+            <mxCell style="group;strokeColor=none;fillColor=none;" vertex="1" connectable="0" parent="1">
+                <mxGeometry x="40" y="40" width="147" height="100" as="geometry"/>
+            </mxCell>
+        </obj>
+        <obj label="" type="ts2c_cable_1" id="33">
+            <mxCell style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#ffffff;fillColor=none;" vertex="1" parent="58">
+                <mxGeometry x="49" y="40" width="60" height="60" as="geometry"/>
+            </mxCell>
+        </obj>
+        <obj label="" type="ts2c_cable_2" id="11">
+            <mxCell style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;strokeColor=#ffffff;fillColor=none;" vertex="1" connectable="0" parent="58">
+                <mxGeometry x="59" y="50" width="40" height="40" as="geometry"/>
+            </mxCell>
+        </obj>
+        <obj label="" type="ts2c_logo" id="10">
+            <mxCell style="curved=1;endArrow=none;html=1;endFill=0;strokeColor=#0000FF;" edge="1" connectable="0" parent="58">
+                <mxGeometry width="50" height="50" relative="1" as="geometry">
+                    <mxPoint x="68" y="81" as="sourcePoint"/>
+                    <mxPoint x="92" y="57" as="targetPoint"/>
+                    <Array as="points">
+                        <mxPoint x="84" y="81"/>
+                        <mxPoint x="76" y="57"/>
+                    </Array>
+                </mxGeometry>
+            </mxCell>
+        </obj>
+        <obj label="" type="ts2c_in_1" id="51">
+            <mxCell style="endArrow=classic;html=1;strokeColor=#ffffff;entryX=0;entryY=0;" edge="1" parent="58" target="33">
+                <mxGeometry width="50" height="50" relative="1" as="geometry">
+                    <mxPoint x="58" as="sourcePoint"/>
+                    <mxPoint x="99" y="120" as="targetPoint"/>
+                </mxGeometry>
+            </mxCell>
+        </obj>
+        <obj label="" type="ts2c_in_2" id="52">
+            <mxCell style="endArrow=classic;html=1;strokeColor=#ffffff;entryX=1;entryY=0;" edge="1" parent="58" target="33">
+                <mxGeometry width="50" height="50" relative="1" as="geometry">
+                    <mxPoint x="100" y="1" as="sourcePoint"/>
+                    <mxPoint x="108.5" y="50" as="targetPoint"/>
+                </mxGeometry>
+            </mxCell>
+        </obj>
+        <obj label="text" type="ts2c_text_in_1" id="53">
+            <mxCell style="text;html=1;fontColor=#ffffff;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" connectable="0"  parent="58">
+                <mxGeometry x="9" width="40" height="20" as="geometry"/>
+            </mxCell>
+        </obj>
+        <obj label="text" type="ts2c_text_in_2" id="54">
+            <mxCell style="text;html=1;fontColor=#ffffff;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" connectable="0" parent="58">
+                <mxGeometry x="107" width="40" height="20" as="geometry"/>
+            </mxCell>
+        </obj>
+        <obj label="text" type="ts2c_text" id="57">
+            <mxCell style="text;html=1;fontColor=#ffffff;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" connectable="0" parent="58">
+                <mxGeometry y="60" width="40" height="20" as="geometry"/>
+            </mxCell>
+        </obj>
+    </root>
+</mxGraphModel>

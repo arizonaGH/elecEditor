@@ -5441,6 +5441,15 @@ PropertiesPanel.prototype.propertiesJson = {
         "runtime":[]
     },
     "group":{"basic":[],"runtime":[]},
+    "st2":{
+        "basic":[
+            {"propertyName":"name","label":"name","type":"input"},
+            {"propertyName":"Vo","label":"Vo","type":"select","sourceType":"local","options":[10,35], "optionsLabel":["10","35"]},
+            {"propertyName":"Vi","label":"Vi","type":"select","sourceType":"local","options":[10,35], "optionsLabel":["10","35"]},
+
+        ],
+        "runtime":[]
+    },
 };
 PropertiesPanel.prototype.loadCable = function () {
     //load cable configuration
@@ -5928,6 +5937,54 @@ PropertiesPanel.prototype.addSelect = function(div, label, propertyName, sourceT
 
 
         graph.getSelectionCell().getValue().setAttribute(propertyName, select.value);
+
+    	//TODO 修改颜色
+        if(graph.getSelectionCell().getValue().getAttribute("type")=="st2")
+		{
+            var model = graph.getModel();
+            model.beginUpdate();
+            try
+            {
+                var children = graph.getSelectionCell().children;
+                for(var i = 0; i<children.length; i++)
+				{
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, '#ff0000', [children[i]]);
+				}
+                // for(var i= 0; i<data.length; i++)
+                // {
+                //     if(data[i].type == "Digital")  //开关状态
+                //     {
+                //         var cell = model.getCell(data[i].cell_id);
+                //         if(data[i].data == 0)
+                //         {
+                //             graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#ff0000', [cell]);
+                //         }
+                //         if(data[i].data == 1)
+                //         {
+                //             graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, '#00ff00', [cell]);
+                //         }
+                //
+                //     }
+                //     if(data[i].type == "Analog")   //文本框
+                //     {
+                //         var cell = model.getCell(data[i].cell_id);
+                //         //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, 'white', [x]);
+                //         cell.getValue().setAttribute("label",data[i].data);
+                //         var state = this.view.getState(cell);
+                //         if (state != null)
+                //         {
+                //             graph.cellRenderer.redraw(state);
+                //         }
+                //     }
+                // }
+
+            }
+            finally
+            {
+                model.endUpdate();
+            }
+
+        }
         mxEvent.consume(evt);
     });
 

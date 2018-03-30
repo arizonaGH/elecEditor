@@ -946,6 +946,7 @@ Sidebar.prototype.styles = {
  */
 Sidebar.prototype.addElectronicPalette = function(expanded, id, title, stencilFile, style, ignore, onInit, scale, tags, customFns){
 
+    var sb = this;
 
     var fns = [];
 
@@ -1023,6 +1024,55 @@ Sidebar.prototype.addElectronicPalette = function(expanded, id, title, stencilFi
     node.setAttribute('type', 'group');
     fns.push(this.createVertexTemplateEntry('rounded=0;whiteSpace=wrap;html=1;fontColor=#FFFFFF;strokeColor=#00FF00;fillColor=none;dashed=1;', 120, 60,
 		node, mxResources.get('group'), null, null, 'rect rectangle box'));
+
+    fns.push(this.addEntry('ts2c', function()
+    {
+
+        var data = mxUtils.load('stencils/ts2c.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('ts2c'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
+    fns.push(this.addEntry('ts2', function()
+    {
+
+        var data = mxUtils.load('stencils/ts2.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('ts2'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
+    fns.push(this.addEntry('ts3c', function()
+    {
+
+        var data = mxUtils.load('stencils/ts3c.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('ts3c'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
+    fns.push(this.addEntry('ts3', function()
+    {
+
+        var data = mxUtils.load('stencils/ts3.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('ts3'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
+    fns.push(this.addEntry('ls', function()
+    {
+
+        var data = mxUtils.load('stencils/ls.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('ls'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
+    fns.push(this.addEntry('lsd', function()
+    {
+
+        var data = mxUtils.load('stencils/lsd.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('lsd'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
     this.addPaletteFunctions(id, title, expanded, fns);
 
 
