@@ -370,3 +370,5 @@ Vo=外圈电压
 Vi=内圈电压
 groupWithBorder=添加开关站
 
+struct=结构单元
+

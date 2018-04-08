@@ -1073,6 +1073,14 @@ Sidebar.prototype.addElectronicPalette = function(expanded, id, title, stencilFi
         return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('lsd'));
         //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
     }));
+    fns.push(this.addEntry('lsd', function()
+    {
+
+        var data = mxUtils.load('stencils/struct.xml').request.responseText;
+        var cd = sb.graph.compress(data);
+        return sb.createVertexTemplateFromData(cd, 296, 100, mxResources.get('struct'));
+        //return sb.createVertexTemplateFromData('7VRBboMwEHyN78ZEfQCkzamnPiByYAG3Bltmm8DvuzYkwS1NKvXSQ5GQdnfG6/WMZZbm7bBz0jbPpgTN0keW5s4YnKJ2yEFrJrgqWbplQnD6mXj6Bk0Cyq100OHKAnN4JVjLg99pGxDPx9HClPc4l0o4qgKWpMseIY/373HUM7l25t2yNOvRmTfIjTaOgM50hGeV0vpTaWp+BIcwRIcoTNdBgfJw7sy/Hi5ZjLID0wK6kSgnVWIzMR7mVQ2ousG4Jvt55MvKq1IUzKc7p167H4u4L/zc++SumPymmFRQtvcynRqF8GJlaHOi+0K1Bls/QUKh7C1pRUmlBqDeGbnQlT4KcGwGE2kVvnVHaidLRRKv0W9bs+Ji5Jb443bdv/vJv118WF5dwcc4XZi5WTFz8zszKb4+joEXvZ0f', 296, 100, mxResources.get('st2'));
+    }));
     this.addPaletteFunctions(id, title, expanded, fns);
 
 
